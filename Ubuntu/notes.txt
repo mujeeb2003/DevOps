@@ -1,0 +1,145 @@
+------------------------------------------------------
+Disk Management:
+
+Key commands:
+
+df: report file system disk space usage
+du: estimate file space usage
+fdisk: manipulate disk partition table
+mount/umount: mount and unmount file systems
+
+------------------------------------------------------
+File searching:
+
+The 'find' command is powerful for searching files and directories.
+Basic syntax: find [path] [expression]
+Common options:
+
+-name: search by name
+-type: search by type (f for files, d for directories)
+-mtime: search by modification time
+-----------------------------------------------------
+Process Management:
+
+ps: report a snapshot of current processes
+top: display Linux processes in real time
+kill: send a signal to a process, often used to end a process
+nice: run a program with modified scheduling priority
+-----------------------------------------------------
+Redirection and Pipes:
+>: redirect stdout to a file (overwrite)
+>>: redirect stdout to a file (append)
+
+2>: redirect stderr
+|: pipe the output of one command to another
+
+-----------------------------------------------------
+Ubuntu compression and decompression:
+Understanding tar and gzip
+tar (Tape Archive)
+Purpose: tar is used to collect multiple files into a single archive file, often referred to as a tarball. It doesn't compress the files; it just bundles them together.
+
+Usage:
+
+Creating an archive: tar -cf archive.tar file1 file2 dir1
+Extracting an archive: tar -xf archive.tar
+Listing archive contents: tar -tf archive.tar
+Options:
+
+-c: Create a new archive.
+-f: Specify the name of the archive file.
+-x: Extract files from an archive.
+-t: List the contents of an archive.
+gzip (GNU zip)
+Purpose: gzip is used to compress files, reducing their size for storage or transmission. It works on individual files, not directories.
+Usage:
+Compressing a file: gzip file
+Decompressing a file: gunzip file.gz
+Combining tar and gzip
+To both archive and compress files, tar and gzip are often used together. This is typically done in one step using tar with the -z option.
+
+Creating a Compressed Archive (tar.gz)
+Command: tar -czf archive.tar.gz directory
+Explanation:
+-c: Create a new archive.
+-z: Compress the archive using gzip.
+-f: Specify the name of the archive file.
+archive.tar.gz: The name of the compressed archive file.
+directory: The directory to be archived and compressed.
+Extracting a Compressed Archive (tar.gz)
+Command: tar -xzf archive.tar.gz
+Explanation:
+-x: Extract files from an archive.
+-z: Decompress the archive using gzip.
+-f: Specify the name of the archive file.
+archive.tar.gz: The name of the compressed archive file.
+Example
+Let's walk through an example:
+
+Creating a Compressed Archive:
+
+Suppose you have a directory named my_folder on your desktop that you want to compress and archive.
+
+bash
+Copy code
+tar -czf my_folder_backup.tar.gz -C ~/Desktop my_folder
+-c: Create a new archive.
+-z: Compress the archive using gzip.
+-f my_folder_backup.tar.gz: The name of the resulting tarball.
+-C ~/Desktop: Change to the ~/Desktop directory before creating the archive.
+my_folder: The directory to be archived and compressed.
+Extracting a Compressed Archive:
+
+To extract the archive my_folder_backup.tar.gz:
+
+bash
+Copy code
+tar -xzf my_folder_backup.tar.gz -C /path/to/destination
+-x: Extract files from the archive.
+-z: Decompress the archive using gzip.
+-f my_folder_backup.tar.gz: The name of the tarball to be extracted.
+-C /path/to/destination: Extract the files to the specified destination directory.
+Conclusion
+Using tar and gzip together allows you to bundle multiple files into a single archive and compress it, making it easier to manage and save storage space. The -z option in tar streamlines this process by combining the archiving and compression steps into a single command.
+
+
+------------------------------------------------------
+apt update refreshes the list of available packages and their version. apt upgrade actually installs the newer versions of packages.
+------------------------------------------------------
+to check a service status: sudo systemctl status service_name
+------------------------------------------------------
+simple bash script with if conditions:
+#!/bin/bash
+if [ "$1" = "hello" ]; then
+  echo "Hello, DevOps"
+else
+  echo "Goodbye, DevOps"
+fi
+
+------------------------------------------------------
+to check directory memory usage
+sudo du -sh /home
+
+
+------------------------------------------------------
+to find certain extension files in a directory
+find /var -name "*.log"
+
+------------------------------------------------------
+The /etc/fstab file (File System Table) contains information about disk drives and partitions. It's used by the system to know how to mount different file systems.
+
+------------------------------------------------------
+to check a process memory and disk usage:
+ps aux | grep bas h 
+OR
+top -p process_id
+
+ps -a for all process
+ps -g group_name/id for processes running under that group
+
+------------------------------------------------------
+to render output to file and if error than also to the file
+
+command > file.txt 2>&1
+
+

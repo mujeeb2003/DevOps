@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html.lenis, html.lenis body {
+            height: auto;
+        }
+        
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+        
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+        
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+        
+        .lenis.lenis-smooth iframe {
+            pointer-events: none;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="w-full">
+        <div class="parent relative w-full h-[1400vh] ">
+            <div class="sticky w-full top-0 left-0 overflow-x-hidden">
+                <canvas></canvas>
+                
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script> 
+    <script>
+        const lenis = new Lenis()
+        
+        
+        function raf(time) {
+            lenis.raf(time)
+            requestAnimationFrame(raf)
+        }
+        
+        requestAnimationFrame(raf)
+        
+        const frames = {
+            currentIndex: 0,
+            maxIndex:500
+        }
+        
+        const canvas = document.querySelector("canvas");
+        const context = canvas.getContext("2d");
+        
+        const images = [];
+        let imagesLoaded = 0;
+        
+        function preloadImages(){
+            for(i=1; i<=frames.maxIndex; i++){
+                let imgUrl = `./frames/frame_${i.toString().padStart(4,"0")}.jpeg`;
+                
+                let img = new Image();
+                img.src = imgUrl;
+                images.push(img);
+                
+                img.onload = function(){
+                    imagesLoaded++;             
+                    if(imagesLoaded == frames.maxIndex){
+                        loadImage(frames.currentIndex);
+                        startAnimation();
+                    }
+                }
+            }
+        }
+        
+        function loadImage(index){
+            if(index>=0 && index<=frames.maxIndex){
+                const img = images[index];
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                
+                const scaleX = canvas.width / img.width;
+                const scaleY = canvas.height / img.height;
+                const scale = Math.max(scaleX,scaleY);
+                
+                const newWidth = img.width * scale;
+                const newHeight = img.height * scale;
+                
+                const offsetX = (canvas.width - newWidth)/2;
+                const offsetY = (canvas.height - newHeight)/2;
+                
+                context.clearRect(0,0,canvas.width,canvas.height);
+                context.imageSmoothingEnabled = true;
+                context.imageSmoothingQuality = "high";
+                context.drawImage(img,offsetX,offsetY,newWidth,newHeight);
+                
+                frames.currentIndex = index;
+            }
+        }
+        
+        
+        
+        function startAnimation() { 
+            let tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger:".parent",
+                    start:"top top",
+                    scrub:2,
+                    
+                }
+            });
+            
+            tl
+            .to(frames,{
+                currentIndex:frames.maxIndex,
+                onUpdate:function(){
+                    loadImage(Math.floor(frames.currentIndex));
+                }
+            })
+        }
+        
+        window.addEventListener("resize",function(){
+            loadImage(frames.currentIndex);
+        })
+
+        preloadImages();
+    </script>
+</body>
+</html>

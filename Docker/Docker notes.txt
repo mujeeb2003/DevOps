@@ -1,0 +1,213 @@
+-Lecture 1: Installation of docker
+    - Docker Terms:
+        -- What is Docker : A platform that allows us to run lightweight containers that contain all the necessary dependencies needed to run an software.
+        -- image : A read-only template used to create containers, it contains app code, libraries and dependencies to run a software.
+        -- container : A lightweight, standalone, executable package that contains necessary dependancies, code and libraries required to run a software
+        -- DockerFile : A file containing docker commands, to create images containing all requirements.
+        -- Docker Hub : A cloud based registry service that contains all the docker images.
+        -- Docker Daemon : The background service responsible for executing, building and running containers. 
+        -- Docker Client : A command line tool allowing users to interact with docker daemon
+	
+-Lecture 2: 
+    - Docker basic commands, 
+        -- sudo systemctl status/stop/start/restart service_name(Docker)
+        -- docker search : to search for images on hub.docker.com
+        -- docker pull ubuntu:latest : to pull the latest image
+        -- docker run : to the image pulled into an isloated container but the container will occupy the terminal
+        -- docker images : to check all the images 
+        -- docker rmi (ubuntu:24.04)/Image_id : to remove the specific image
+        -- docker rmi -f image_id/image_name : to forcefully remove the image if it is used in an container.
+        -- docker info : to get an overview of Docker infrastructure
+        -- docker ps : means prcess show, to see the docker containers running
+        -- docker container ls : used to list the running containers
+        -- docker ps -a : shows all the existing container
+        -- docker run -it -d image_name : -it means interactively, runs the container in the background, the -d option runs container in the background
+        -- docker kill container_name : to kill an container
+        -- docker stop container_name : to stop a container
+        -- docker start container_name/id : to start a container
+        -- docker rm -f container_name/id : to forcefully remove a docker container from the machine
+        -- difference between kill and rm -f command : rm -f completely stops and removes the container, while kill only stops the container running.
+        -- docker stats container_id : to get the statistics of the container, shows memory usage and cpu usage.
+        -- docker top container_id : to view the process of the container, shows the procces in the container
+        -- docker pause container_id : to temporarily pause any container
+        -- docker unpause container_id : to resume the running of the container.
+        -- docker history container_id : to see the history of a container
+        -- docker rename current_name/id new_name : to rename a container 
+        -- docker tag image_name:image_tag new_name : used to rename an image in our repository, with this the original copy is not altered, a new image is created for us. 
+        -- docker logs container_id/name : to see the logs of the container
+        -- docker logs -f container_id : to see the logs realtime, it will occupy the terminal
+        -- docker exec -it container_id/name /bin/bash(type of container) : To access a container through ssh
+        -- docker inspect container_name/id : displays all the possible information related to the container.
+        -- docker rm -f $(docker ps -a -q)
+
+    - Archive Commands:
+        -- docker export container_name/id > mybackupimage.tar : Exporting a container to an tar archive
+        -- docker import mybackupimage.tar mynewimage:imported : importing an tar as an image
+
+    - Pushing an to an docker repository
+        -- docker login : to login to hub.docker.com
+        -- *Before pushing an image to a repository we need to fix it name according to the repository
+        -- docker push image_name:version : to push the image according to the tag
+    
+    - copying files to container
+        -- docker cp file_name docker_image:directory
+
+    - network commands: 
+        -- docker network ls : to see the networks in the docker
+        -- docker network create network_name : to create a new network
+        -- docker run -it -d --network network_name ubuntu /bin/bash : to run this image on a specific network
+        -- docker network connect/disconnect network_name container_name/id : to connect/disconnect the container to the network
+        -- docker network remove network_name/id : to remove a network
+
+    - volume:
+        -- docker volume : to see the volumnes
+        -- docker volume create volume_name : to create volume
+        -- docker run -it -d -v(to mount) volume_name:path image_name /bin/bash : to mount a volume on an image to a path.
+        -- cd /var/lib/docker/volumes : folder contains the volumes
+        -- docker volume remove 2ndVolume : to remove a volume
+
+    - docker system prune : to remvoe all stopped containers, unused networks, and dangling images and unused build cache
+
+
+    Chapter 13: Dockerfile
+        - a blueprint for custom images fr the purpose of suitable environment for applications 
+        - written in DSL, domain specific language, instructions written that create an image.
+
+        - common instructions: 
+            -- node application example (image for node)
+                -- FROM node:20_alpine :  mention base image
+            - each instruction is layer on the image.
+                -- WORKDIR /home/node/app :  the location for the source code
+                
+                -- ex: RUN apt update \(for moving to next line)
+                        apt install vim : to run scripts
+                -- RUN mkdir -p /home/node/app/node_modules
+                -- COPY .(if the code is in current location) .(save to work dir)
+                -- COPY package.json .
+                -- USER node : sets the user and group for files and directories in the image.
+                -- RUN npm install
+                -- COPY --chown=node:node . . : to set the user and group for all directories copied.
+                -- EXPOSE 8080 : port where the app runs
+                -- CMD ["node","app.js"];
+                -- ADD "url" : to add anything to image from the internet.
+                -- ENTRYPOINT : STARTS THE PROCESS IN THE container
+                -- ENTRYPOINT VS CMD : purpose is same, entrypoint has a priority
+                -- MAINTAINER "name" : to mention the name/email of the maintainer
+                -- LABEL : to add meta data to image
+
+                - docker build -t nodeimage:v1 .(read the docker file in the current directory) :  to create image from dockerfile
+        
+        - docker run -it -d -p(port) 8080(access vm publicly on my personal machine through this.):8080(container_port) --name nodeapp nodeiamge:v9 
+
+            -- nginx application example (image for nginx)
+                -- FROM nginx:stable-alpine3.19-slim
+                -- COPY index.html /usr/share/nginx/html/
+                -- EXPOSE 80
+                -- CMD ["nginx","-g","daemon off;"]
+    
+    Chapter 14: Multistage Dockerfile
+        - We can have multiple FROM commands. 
+            -- this helps in reducing the image size, helps to have only the necessary dependencies.
+        
+        -- FROM node:20-alpine as build{
+        -- COPY     - this is an runtime artifact/jar/build and we can call it as build
+        -- CMD  }
+
+        -- FROM node:20-alpine as final
+        -- COPY --from=build /app(dir) /app
+        -- CMD ["node","app.js"]
+
+        - Advantages: 
+            -- enhanced security
+            -- faster builds, 
+            -- lower image size
+            -- simpler CI/CD pipeline
+
+    Chapter 15: Docker volumes
+        - containers file systems are ephemeral, which means removal of a container results in removal of the data on that container. Hence we need a solution where our data is not lost on stopping or removing a container.
+        - We use docker volume for it and mount it. They offer persistance storage that is independant of docker container. 
+        - used to store data outside of the container.
+        - in linux : /var/lib/docker 
+                        -- volumes
+                        -- network
+                        -- images
+        - After creating an image, when we run an image into an container, a runtime container layer is added, and it stores the ephemeral/temporary data.
+        - we attach/mount a volume to the container, to create persistent data.
+
+        - Commands:
+            -- docker volume create volume_name
+            
+        - bind mounts are also used for persistent data storage, but the preffered mechanism is volumes.
+        - diff btw bind mounts and volumes:
+            -- we can create a volume and attach to any container
+            -- in bind mounts we mount a folder to a container. 
+            -- volumes are managed by the docker. and it has nothing to do with the host machine. They are independant.
+            -- bind mounts are folders on the host machine.
+        
+        - Features:
+            -- persistent data storage.
+            -- backup and migrate docker volumes among different docker hosts.
+            -- work on linux and windows machines.
+            -- we can attach a single docker volume to multiple container or multiple docker volumes to single container.
+            -- we can store volume remote hosts and other cloud providers.
+            -- encrypt volumes.
+        
+        - bind mount:
+            -- docker run -it -d -p 80:80 -v(for volume/bindmount{give full path}) /home/user/testingmount(folder_from_host):/opt(folder_in_container) --name conainer1 nginx:latest
+            -- any file created in the container is created in the bindmount in the host, and vice versa.
+        
+        - volumes:
+            -- default driver is local
+            -- docker inspect volume_name
+            -- docker run -it -d -p 80:80 --mount source=volume_name,target=/opt --name conainer1 nginx:latest
+            -- volumes ares synced between different containers and hosts. 
+
+    Chapter 16: Docker network:
+        - A process connecting two or more computers/etc to exchange data and communication
+        - Types/Drivers:
+            -- bridge : if all containers are attached to this, than containers can communicate with each other.
+                      : creates a software bridge between the host and container. Are connected with each through bridge. By using bridge each container has it's own ip address.
+                      : it is the default driver. 
+            -- host : The containers do not get any ip address, the containers are directly created in the system network. Use the host network and removes the isolation of the container. 
+            -- overlay : involves 2 or more docker daemons, used to enable communication between multiple docker services. 
+            -- ipvlan : we have control over the ipv4 and ipv6 addresses assigned to the container. 
+            -- macvlan : we get control over the mac addresses assigned to the container. virtual mac address
+            -- none : the containers do not connect to any network, hence they cannot communicate with each other or the host. 
+        
+        - commands: 
+            -- docker network ls : to view the list of networks created. 
+            -- docker network create network_name : creates our network, with default driver as bridge.
+            --  by default when trying to communicate between containers, they will not be able to becuase they are not on the same network. 
+            -- docker network connect network_name container_name
+            -- docker inspect container1 | grep -i network
+            -- docker run -itd --name container_name --network network_name image_name:tag
+            -- docker network disconnect network_name container_name
+            -- docker network rm -f network_name/id
+            
+            - Network with specified ip and subnet
+                -- docker network create --driver bridge --subnet 10.0.42.0/24 --ip-range 10.0.42.0/24 network_name
+                -- docker run -itd -p ip:80:80(container_port) --name container_name image : binds the container to the host ip address 
+            
+            -- host network is there by default. Therefore we cannot create another network with host driver.
+            -- docker run -itd --network host --name container_name image_name
+
+
+    Chapter 17: Docker container registry:
+        - registry is a hub from where we can pull or push our images. ex: aws ec2 registry, azure registry.
+        - The registry contains repositories where we save the images. 
+        
+        - commands:
+            -- docker login 
+            -- docker tag image_name:tag new_name:tag
+            -- docker push imagename:tag
+            -- docker logout
+            -- docker 
+
+    Chapter 18: Docker question:
+        - What is docker: an open source platform used to build, ship and run application. it is used to speed the process of software delivery and it makes the application independant of the os running hostly. 
+        - What is containerization: type of virtualisation where the application is bundled on to a single container and is isolated. 
+        - What is diff in virtualisation and containerization: virtualisation is the technology enabling us to use virtual machines on our host from underlying resources using an abstraction layer known as hypervisor. 
+            -- Containerisation is a form of virtualisation in which an application is bundled along with it's dependancies into a container.
+        - What is the docker engine: docker engine is a client-server application. it manages the building and running and management of images and container. it consist of docker daemon and docker cli. 
+        - What is the difference between docker and kubernetes: docker is used package applications into containers, that contain all the necessary dependancies to run the application or software. And kubernetes is used to manage and orchestrate those containers in production. Simply it used to manage applications acorss cluster of nodes.
+        - distroless images: distroless images are the minimal images that contain only the application and it's runtime dependancies, they do not contain any build dependancies and etc. 
