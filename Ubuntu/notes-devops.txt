@@ -1,0 +1,113 @@
+Linux Notes:
+    - lec 1:
+        - What is Linux
+
+    - lec 2:
+        - what is linux kernel
+
+    -- lec 4:
+        - how to install linux : 1) VM, 2) Virtual Box, 3) cloud, 4) Dual boot
+        - check version: cat /etc/issue
+
+    -- lec 5: (connect through ssh)
+        - Connect remotely with linux through ssh. secure shell.
+        - putty, termius, winscp, mtputty, openssh client
+        - the public key is in the authorised keys file and the private key is on the client or the host machine.
+        - generate key through puttygen. 
+        - save the private key in putty, and the public key in the authorized keys file.
+
+        - Create ssh keypair through linux
+            - create ssh key pair: ssh-keygen -t rsa
+            - copy the private key to the client machine
+            - keep the public key in the authorized keys file
+            - however, we also need to change the format of the private key, through puttygen.
+
+    -- lec 6: linux filesystem:
+        - linux file system is a collection of files on a disc drive or partition
+        - partition is a segment of memory and contains some data. 
+            -- / -> root directory
+                -- it is the main directory, the umbrella. 
+            -- data storage formats Ext 3/Ext 4
+                -- Ext stands for extened. 
+            -- partition [/dev/sda]
+                -- logical volumes. to divide the main drive.
+                -- fdisk -l to see the volumes. 
+        
+        - /bin contains all the command binaries to run different commands. 
+        - /boot contains all the things needed for the os to boot
+        - /etc contains all the necessary configurations for software that we install. 
+        - /media shows the external drives or usb connected
+        - /mnt is used t mount a usb or etc. 
+        - /opt contains add ons, additional software packages. 
+        - /run has runtime info
+        - drwxr-xr-x 2 mujeeb mujeeb 4096 Sep 25 15:39 directory
+           - The '2' here represents the number of hard links to this directory.
+           - To understand hard links and this number:
+           - 1. A hard link is a directory entry that points directly to the inode of a file or directory.
+           -    - An inode is a data structure that stores all the information about a file except its name and content.
+           - 2. Hard links are like additional names for the same data on disk.
+           - 3. For directories:
+           -    - Every directory has at least 2 hard links:
+           -      a) One for its name in the parent directory
+           -      b) One for the '.' entry inside itself (referring to itself)
+           -    - This number increases for each subdirectory created inside it
+           -      (because each subdirectory has a '..' entry pointing back to this parent)
+           - 4. A count of 2 for a directory typically means it's empty (no subdirectories)
+           - 5. For regular files, this number shows how many different directory entries
+           -    (i.e., filenames) point to the same data on the disk
+           - Hard links provide a way to have multiple directory entries reference the same file data,
+           - saving disk space and allowing for efficient file organization.
+
+        - file permission numbers:
+            - rwxrwxrwx
+            - x = execute -- 1
+            - w = write -- 2
+            - wx = write and execute -- 3
+            - r = read -- 4
+            - rx = read and execute -- 5
+            - rw = read and write -- 6 
+            - rwx = read, write, and execute -- 7
+
+    -- lec 7: 
+        - Reasons for refusal of ssh key
+            - The key is not added to the authorized keys file.
+            - The key format is not correct
+            - The user permissions are not set correctly.
+            
+
+    -- lec 8: changing ssh port
+        - cd /etc/ssh/sshd_config file
+        - change port number
+        - Restart the ssh service
+        - And make sure to open the port in the firewall if applicable.
+    
+    -- lec 9: Disable Root user Login
+        - nano /etc/ssh/sshd_config file
+        - change the line: PermitRootLogin yes to no.
+        - restart the ssh service
+
+    -- lec 10: linux ports
+        - in linux ports is used to access different network devices and services, when we combine the ip and port number, a socket number is created. 
+        - range 0 - 65535
+            - 0 - 1023 : reserved for well known services. 
+            - 1024 - 49151 : user ports, available for registration
+            - 49152 - 65535 : dynamic ports, can be assigned to any service. 
+
+        - common ports:
+            - 21 : used for FTP, file transfer protocol.
+            - 22 : used for ssh, secure shell.
+            - 23 : used for telnet, remote login without encryption
+            - 25 : used for SMTP, simple mail transfer protocol
+            - 53 : used for DNS, domain name system
+            - 67,68 : used for DHCP, dynamic host configuration protocol, 67 for serer and 68 for client
+            - 80,443 : 80 -> http, 443 -> https:
+            - 110,995 : 110 -> pop3(post office protocol), 995 -> pop3s (secure encrypted)
+            - 123 : network time protocol, used for time synchronization
+            - 137 : used for netbios, printing and file sharing
+            - 143,993 : used for IMAP, internet message access protocol, IMAP(secure) on 993
+            - 161,162 : used for SNMP, simple network management protocol, used to send alerts and monitor infrastructure
+            - 445 : for SMB, server message block, file sharing as well
+            - 465 : secure SMTP, used for secure sending mail
+
+    -- lec 11: 50 basic linux commands:
+        - 
