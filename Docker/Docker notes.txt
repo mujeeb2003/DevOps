@@ -137,8 +137,8 @@
         - Commands:
             -- docker volume create volume_name
             
-        - bind mounts are also used for persistent data storage, but the preffered mechanism is volumes.
-        - diff btw bind mounts and volumes:
+        - bind-mounts are also used for persistent data storage, but the preffered mechanism is volumes.
+        - diff btw bind-mounts and volumes:
             -- we can create a volume and attach to any container
             -- in bind mounts we mount a folder to a container. 
             -- volumes are managed by the docker. and it has nothing to do with the host machine. They are independant.
@@ -151,7 +151,8 @@
             -- we can attach a single docker volume to multiple container or multiple docker volumes to single container.
             -- we can store volume remote hosts and other cloud providers.
             -- encrypt volumes.
-        
+            -- volumes are stored in /var/lib/docker/volumes
+
         - bind mount:
             -- docker run -it -d -p 80:80 -v(for volume/bindmount{give full path}) /home/user/testingmount(folder_from_host):/opt(folder_in_container) --name conainer1 nginx:latest
             -- any file created in the container is created in the bindmount in the host, and vice versa.

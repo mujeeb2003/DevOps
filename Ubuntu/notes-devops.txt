@@ -93,7 +93,7 @@ Linux Notes:
             - 1024 - 49151 : user ports, available for registration
             - 49152 - 65535 : dynamic ports, can be assigned to any service. 
 
-        - common ports:
+        - Common ports:
             - 21 : used for FTP, file transfer protocol.
             - 22 : used for ssh, secure shell.
             - 23 : used for telnet, remote login without encryption
@@ -110,4 +110,158 @@ Linux Notes:
             - 465 : secure SMTP, used for secure sending mail
 
     -- lec 11: 50 basic linux commands:
-        - 
+        - clear : to clear the terminal screen
+        - cd : change directory
+        - ls : list directory content, list show. It has flags.
+        - ls -l : list with complete details
+        - ls -a :  list all files including hidden files
+        - ls -la : list all files with complete details
+        - ls -th : list with complete details, sorted by modification time, with file sizes in human-readable format
+        - ls -tch : similar to ls -th, but the 'c' flag shows the time of last status change instead of the last modification time. This includes changes to the file's permissions, ownership, or other metadata, even if the file content hasn't been modified.
+
+        - cat : to view the content of a file. 
+        - cat -n : to view the content of a file with line numbers
+        - cat -b : to view the content of a file with line numbers, but it will not show the line numbers for empty lines.
+        
+        - cp : to copy a file or directory, cp [source] [destination]
+        - cp -r : to copy a directory with all its content, cp -r [source] [destination]
+        - cp -v : to copy a file or directory with a message showing the progress, cp -v [source] [destination]
+        - mv : to move a file or directory, mv [source] [destination]
+        
+        - rm : to remove a file or directory, rm [file or directory]
+        - rm -r : to remove a directory with all its content, rm -r [directory]
+        - rm -v : to remove a file or directory with a message showing the progress, rm -v [file or directory]
+        - rm -f : to force remove a file or directory without any confirmation, rm -f [file or directory]
+        - rm -rf : to force remove a directory with all its content without any confirmation, rm -rf [directory]
+
+        - mkdir : to create a directory, mkdir [directory]
+        - mkdir -p : to create a directory with all its parent directories, mkdir -p [directory]
+        - mkdir -v : to create a directory with a message showing the progress, mkdir -v [directory]
+        - rmdir : to remove a directory, rmdir [directory]
+        - rmdir -p : to remove a directory with all its parent directories, rmdir -p [directory]
+
+        - Process management:
+            - top : to list down all the processes running in the system. in a more interactive manner.
+            - ps : to list the processes running in the system. but a static snapshot 
+            - ps -aux: to list all the processes with all the details but again a static snapshot.
+            - kill : to kill a process, kill [process-id]
+            - killall :  to kill all the processes of a particular name. killall [process-name]
+        - Disk space:
+            - df : to show the disk space free
+            - df -h : to show the disk space free in a human-readable format
+            - fdisk -l : to show the partition details
+            - du -sh: to show the disk usage of a file or directory. in human readable format. 
+            - du -sh * : to get the disk usage of all the files and directories in the current directory.
+            - du -sh * | grep G : to get the disk usage of all the files and directories in the current directory, having size in GB's.
+
+        - Networking commands:
+            - ping : to ping any server, ping [ip address]
+            - traceroute : to trace the route taken by the packet to reach the destination
+            - dig domain :  to get the DNS informations for a domain. 
+            - curl ifconfig.me : to get the public ip address of the server. 
+            - ip a : to get the private ip address of the server. 
+            - ifconfig : to get the network informations of the server. 
+        
+        - Package management:
+            - apt-get : to install any packages
+            - which : to find the path of a package
+            - apt-get update : to update the package list
+            - apt-get upgrade : to upgrade the installed packages
+            - apt-get install : to install a package
+            - apt-get remove : to remove a package
+            - apt-get autoremove : to remove unnecessary packages
+            - apt-get clean : to clean the package cache
+            - apt-get purge : to completely remove a package and its configuration files
+            - apt-get autoremove : to remove unnecessary packages
+            - apt-get clean : to clean the package cache
+
+        - Daemon/Service management:
+            - service {service-name} start : to start a service
+            - service {service-name} stop : to stop a service
+            - service {service-name} restart : to restart a service
+            - service {service-name} status : to check the status of a service
+
+            - systemctl start {service-name} : to start a service
+            - systemctl stop {service-name} : to stop a service
+            - systemctl restart {service-name} : to restart a service
+            - systemctl status {service-name} : to check the status of a service
+
+        - uname -a : to get the linux architecture details.
+        - hostname : to get the hostname of the server.
+        - /etc/hostname :  to change the hostname of the server.
+        - echo : to print a message on the terminal. 
+        - echo $PATH : to get the path of the environment variables.
+        - history : to get the history of the commands.
+        - !! : to run the last command again.
+
+    -- lec 11[B]: 25 further commands:
+        - sudo -i : to get the root access with the current user password. [Super User Do] 
+        - su -: to get the root access with the root password. [Switch User] 
+        - sudo : to run a command with the root access. [Super User Do] 
+        - useradd -m(to create home directory) : to create a new user. [add user]
+        - useradd -m -s /bin/bash -g(to specify group) -G(to specify additional groups) : to create a new user with specific options. [add user]
+        - userdel -r(to also delete the home directory): to delete a user. 
+        - /etc/passwd : to view all the users in the system. 
+        - tar -c(archive)z(gzip)v(verbose)f(file name) destination : to compress a file. 
+        - tar -x(extract)z(gzip)vf(file name) destination : to extract a file with gzip compression. 
+        - zip -r(recursive) (file name) (directory) : to compress a directory in zip extension.
+        - unzip (filename) : to extract a zip file.
+    
+        - free -m : to show the free memory of the system.
+        - cat /proc/meminfo : to show the memory details of the system.
+        - cat /proc/cpuinfo : to show the cpu details of the system.
+
+        - locate "pattern" : to search for a file in the system.
+        - head -n(number of lines) (file name) : to show the first n lines of a file.
+        - tail -n(number of lines) (file name) : to show the last n lines of a file.
+        - wc -l file_name :  to count the number of lines in a file. 
+        - wc -w file_name : to count the number of words in a file. 
+        - htop : shows real time process info in a colorful manner. 
+        - chmod -R 755 (directory) :  to change permission
+        - chown -R (user):(group) (directory) : to change the owner of a directory.
+        - chgrp (group) directory/file : to change the group only. 
+        - runlevel. 
+        
+        - SELinux (Security-Enhanced Linux):
+            - A Linux kernel security module that implements security policies.
+            - These policies provide fine-grained access control for processes and files.
+            - Enhances system security by defining what actions are allowed or denied.
+
+        - Key SELinux commands:
+            - sestatus : to check the current status and mode of SELinux.
+            - setenforce 0 : to set SELinux to permissive mode (policies are not enforced, only logged).
+            - setenforce 1 : to set SELinux to enforcing mode (policies are actively enforced).
+            - getenforce : to display the current SELinux mode (Enforcing, Permissive, or Disabled).
+            - /etc/selinux/config : configuration file to set SELinux mode persistently.
+
+        - nslookup : to find the ip address of a domain.
+        
+        - Links:
+            - softlink : a type of file that points to another file or directory. it is a special file that contains the path to the target file or directory. this means that the target file or directory can be accessed through the softlink.
+
+            - hardlink : a type of file that points to the same inode as another file. it is a special file that contains the path to the target file or directory. this means that any change in the hardlink will reflect in the original file and vice versa.
+
+            - ln -s (target) (link name) : to create a softlink.
+            - ln (target) (link name) : to create a hardlink.
+
+        - scp (Secure Copy):
+          - Used to securely copy files between servers over SSH.
+          - Copies entire files each time, even if they haven't changed.
+          - Simple to use for one-time file transfers.
+          - Examples:
+            - scp -r (source) (destination) : Copy recursively
+            - scp -P 3022 (source) remoteuser@remote_location:[directory] : Use custom port
+
+        - rsync (Remote Sync):
+          - Used to synchronize files and directories between servers.
+          - Only transfers the differences between source and destination, saving bandwidth.
+          - Offers more features like compression, preservation of file attributes, and exclusion rules.
+          - Better for large transfers or regular syncing tasks.
+          - Example:
+            - rsync -av (source) (destination) : Archive mode, verbose output
+
+        Key differences:
+        - Efficiency: rsync is more efficient for repeated transfers or large files.
+        - Functionality: rsync offers more advanced features and options.
+        - Use case: scp is simpler for quick, one-time transfers; rsync is better for backups or mirroring.
+        
