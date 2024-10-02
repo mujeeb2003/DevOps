@@ -20,13 +20,19 @@ To get started with this LEMP stack application, follow these steps:
     cd lemp
     ```
 
-4. Build and start the Docker containers:
+4. Build the Docker image:
+
+    ```
+    docker-compose build
+    ```
+
+5. Run the Docker containers:
 
     ```
     docker-compose up -d
     ```
 
-5. Access your application at `http://localhost`.
+6. Access your application at `http://localhost`.
 
 ## Repository URL
 
