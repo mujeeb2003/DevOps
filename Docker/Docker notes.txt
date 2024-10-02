@@ -212,3 +212,41 @@
         - What is the docker engine: docker engine is a client-server application. it manages the building and running and management of images and container. it consist of docker daemon and docker cli. 
         - What is the difference between docker and kubernetes: docker is used package applications into containers, that contain all the necessary dependancies to run the application or software. And kubernetes is used to manage and orchestrate those containers in production. Simply it used to manage applications acorss cluster of nodes.
         - distroless images: distroless images are the minimal images that contain only the application and it's runtime dependancies, they do not contain any build dependancies and etc. 
+
+
+    Chapter 19: Docker compose:
+        - a tool for defining and running multi-container docker applications.
+        - docker compose yaml file contains the commands to build and run our images into a container. 
+        - in docker-compose.yml 
+            - version: '3'
+            - services:
+                - name: 
+                    - build: 
+                        context: path/to/dockerfile
+                        dockerfile: Dockerfile_name
+                    - ports:
+                        - "80:80"
+                    - networks:
+                        - my_bridge_network
+                    - volumes:
+                        ./src:/var/www/html 
+                        ./directory:/destination_directory //used to mound a directory.
+                    - depends_on:
+                        - service_name
+                    - workdir : /var/www/php
+                    - environment:
+                        - name: value
+                    - restart: always
+            - global networks:
+                - name: my_bridge_network
+                - driver: bridge
+            - global volumes: 
+                - name: my_volume
+            - docker compose build : to build the image
+            - docker compose up -d: to run the container  
+        - Summary: 
+            -- Docker Compose is a tool for defining and running multi-container Docker applications. It allows you to use a YAML file to configure your application's services, networks, and volumes. With a single command, you can create and start all the services from your configuration.
+
+
+        
+                

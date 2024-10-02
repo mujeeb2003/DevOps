@@ -3,7 +3,16 @@ Linux Notes(DevOps):
         - What is Linux
 
     - lec 2:
-        - what is linux kernel
+        - What is the Linux kernel:
+          - The Linux kernel is the core component of the Linux operating system
+          - It acts as an interface between the computer's hardware and its processes
+          - Key responsibilities:
+            - Memory management
+            - Process scheduling
+            - Device driver management
+            - System call handling
+          - It's open-source, allowing developers worldwide to contribute and improve it
+          - Linus Torvalds created the initial version in 1991
 
     -- lec 4:
         - how to install linux : 1) VM, 2) Virtual Box, 3) cloud, 4) Dual boot
@@ -37,7 +46,7 @@ Linux Notes(DevOps):
         - /boot contains all the things needed for the os to boot
         - /etc contains all the necessary configurations for software that we install. 
         - /media shows the external drives or usb connected
-        - /mnt is used t mount a usb or etc. 
+        - /mnt is used to mount a usb or etc. 
         - /opt contains add ons, additional software packages. 
         - /run has runtime info
         - drwxr-xr-x 2 mujeeb mujeeb 4096 Sep 25 15:39 directory
@@ -226,13 +235,12 @@ Linux Notes(DevOps):
             - A Linux kernel security module that implements security policies.
             - These policies provide fine-grained access control for processes and files.
             - Enhances system security by defining what actions are allowed or denied.
-
-        - Key SELinux commands:
-            - sestatus : to check the current status and mode of SELinux.
-            - setenforce 0 : to set SELinux to permissive mode (policies are not enforced, only logged).
-            - setenforce 1 : to set SELinux to enforcing mode (policies are actively enforced).
-            - getenforce : to display the current SELinux mode (Enforcing, Permissive, or Disabled).
-            - /etc/selinux/config : configuration file to set SELinux mode persistently.
+            -- Key SELinux commands:
+                - sestatus : to check the current status and mode of SELinux.
+                - setenforce 0 : to set SELinux to permissive mode (policies are not enforced, only logged).
+                - setenforce 1 : to set SELinux to enforcing mode (policies are actively enforced).
+                - getenforce : to display the current SELinux mode (Enforcing, Permissive, or Disabled).
+                - /etc/selinux/config : configuration file to set SELinux mode persistently.
 
         - nslookup : to find the ip address of a domain.
         
@@ -245,23 +253,98 @@ Linux Notes(DevOps):
             - ln (target) (link name) : to create a hardlink.
 
         - scp (Secure Copy):
-          - Used to securely copy files between servers over SSH.
-          - Copies entire files each time, even if they haven't changed.
-          - Simple to use for one-time file transfers.
-          - Examples:
-            - scp -r (source) (destination) : Copy recursively
-            - scp -P 3022 (source) remoteuser@remote_location:[directory] : Use custom port
+            - Used to securely copy files between servers over SSH.
+            - Copies entire files each time, even if they haven't changed.
+            - Simple to use for one-time file transfers.
+            - Examples:
+                - scp -r (source) (destination) : Copy recursively
+                - scp -P 3022 (source) remoteuser@remote_location:[directory] : Use custom port
 
         - rsync (Remote Sync):
-          - Used to synchronize files and directories between servers.
-          - Only transfers the differences between source and destination, saving bandwidth.
-          - Offers more features like compression, preservation of file attributes, and exclusion rules.
-          - Better for large transfers or regular syncing tasks.
-          - Example:
-            - rsync -av (source) (destination) : Archive mode, verbose output
+            - Used to synchronize files and directories between servers.
+            - Only transfers the differences between source and destination, saving bandwidth.
+            - Offers more features like compression, preservation of file attributes, and exclusion rules.
+            - Better for large transfers or regular syncing tasks.
+            - Example:
+                - rsync -av (source) (destination) : Archive mode, verbose output
 
-        Key differences:
-        - Efficiency: rsync is more efficient for repeated transfers or large files.
-        - Functionality: rsync offers more advanced features and options.
-        - Use case: scp is simpler for quick, one-time transfers; rsync is better for backups or mirroring.
+            -- Key differences:
+                - Efficiency: rsync is more efficient for repeated transfers or large files.
+                - Functionality: rsync offers more advanced features and options.
+                - Use case: scp is simpler for quick, one-time transfers; rsync is better for backups or mirroring.
+        
+        - netstat -an | grep ":80" | wc -l : to count the number of connections on port 80.
+
+        - ufw status : to check the status of the firewall.
+        - ufw allow port : to allow a port.
+        - ufw status numbered : to check the status of the firewall with the port numbers.
+        - ufw delete rule_number : to delete a rule from the firewall.
+        - ufw allow from ip : to allow a port from a specific ip.
+        - ufw allow from any ip to any port : to allow a port from any ip.
+
+    -- lec 12:
+        - User management:
+            - system level user : user id range 0-999 (root,sys,bin)
+            - normal user : user id range starts from 1000
+            - root user : user id is 0
+            - A home directory is created for each user in the /home directory. where the user's data is stored. 
+            - /etc/passwd : to view all the users in the system.
+            - /etc/shadow : to view the password details of the users in the system.
+
+            - useradd {username} : to create a new user. 
+            - useradd -m -s /bin/bash -g {groupname} -G {groupname} {username} : to create a new user with specific options. 
+            - useradd -m -D(home directory) /opt/test9 test9 : to create a new user with a home directory in /opt/test9 and the username as test9.
+                - -c : is used to add a comment to the user. 
+            - useradd -e (expiration date) {username} : to set the expiration date of the user.
+            - useradd -f (inactive days) {username} : to set the expiration date of the user.
+            - useradd -s (shell) {username} : to set the shell of the user.
+            - useradd -u (user id) {username} : to set the user id of the user.
+            - useradd -g (group name) {username} : to set the group name of the user.
+            - useradd -G (group name) {username} : to set the additional group name of the user.
+            - useradd -d (home directory) {username} : to set the home directory of the user.
+            - useradd -m (create home directory) {username} : to create a home directory for the user.
+            - useradd -M (no home directory) {username} : to not create a home directory for the user.
+            - useradd -r (system user) {username} : to create a system user.
+            
+            - When a user is created without specifying a password:
+                - By default, the account is created in a locked state.
+                - There is no default password assigned.
+                - The user cannot log in until a password is set.
+
+            - To set or change the password for a user:
+                - Use the 'passwd' command: sudo passwd {username}
+                - Example: sudo passwd newuser
+                - You'll be prompted to enter and confirm the new password.
+
+            - To unlock a user account after setting a password:
+                - Use the 'usermod' command: sudo usermod -U {username}
+                - Example: sudo usermod -U newuser
+
+            - Best practice:
+                - Always set a strong password immediately after creating a new user.
+                - Consider using 'passwd' with the '--expire' flag to force the user to change their password on first login:
+                  sudo passwd --expire {username}
+
+            - sudo id {username} : to check the user id of the user.
+            - chage -l {username} : to check the expiry details of the user.
+
+            - userdel -r {username} : to delete a user with all its data.
+            - userdel -r -f {username} : to delete a user with all its data and forcefully.
+
+            - usermod -c "full name" {username} : to change the full name of the user.
+            - usermod -l {newusername} {username} : to change the username of the user.
+
+    -- lec 13: su vs sudo
+        - su : switch user, it is used to switch the user to the root user.
+        - sudo : super user do, it is used to run a command with the root user.
+
+        - su - root : to switch the user to the root user.
+        - sudo -i : to get the root access with the current user password.
+
+    -- lec 14: Questions:
+        - linux kernel
+        - swap memory(free -m) : it is an extension of the physical memory, it is used to maintain the stability of the system and run the tasks even when the memory if full. 
+        - core components : kernel, shell, GUI, system utilities, Applications. 
+        - shell : it is a command line interpreter that takes commands from the user and gives them to the kernel to execute. 
+        - zombie process :  it is a process that has completed executed but still has an entry in the process table, and it most often takes place because the parent process fails to collect it's termination status. 
         
