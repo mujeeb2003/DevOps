@@ -55,14 +55,14 @@
     - network commands: 
         -- docker network ls : to see the networks in the docker
         -- docker network create network_name : to create a new network
-        -- docker run -it -d --network network_name ubuntu /bin/bash : to run this image on a specific network
+        -- docker run -it -d --network network_name ubuntu: to run this image on a specific network
         -- docker network connect/disconnect network_name container_name/id : to connect/disconnect the container to the network
         -- docker network remove network_name/id : to remove a network
 
     - volume:
         -- docker volume : to see the volumnes
         -- docker volume create volume_name : to create volume
-        -- docker run -it -d -v(to mount) volume_name:path image_name /bin/bash : to mount a volume on an image to a path.
+        -- docker run -it -d -v(to mount) volume_name:path image_name: to mount a volume on an image to a path.
         -- cd /var/lib/docker/volumes : folder contains the volumes
         -- docker volume remove 2ndVolume : to remove a volume
 
