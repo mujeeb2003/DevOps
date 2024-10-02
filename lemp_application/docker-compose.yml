@@ -1,0 +1,67 @@
+version: "3"
+
+services:
+    # Nginx Service
+    nginx:
+        build:
+            context: ./.docker/nginx
+            dockerfile: Dockerfile
+        image: nginx:latest
+        ports:
+            - 80:80
+        volumes:
+            - ./src:/var/www/php # Mounts the source code
+            - ./.docker/nginx/conf.d:/etc/nginx/conf.d
+        depends_on:
+            - php # Ensures PHP service starts first
+
+    # PHP Service
+    php:
+        build:
+            context: ./.docker/php
+            dockerfile: Dockerfile
+        image: php:latest
+        working_dir: /var/www/php
+        volumes:
+            - ./src:/var/www/php # Mounts the source code
+        depends_on:
+            - mysql # Ensures MySQL service starts first
+
+    # MySQL Service
+
+    mysql:
+        build:
+            context: ./.docker/mysql
+            dockerfile: Dockerfile
+        image: mysql:latest
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_ROOT_HOST: "%"
+            MYSQL_DATABASE: demo
+        volumes:
+            - ./.docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+            - mujeeb-db-data:/var/lib/mysql # Persists database data
+        healthcheck:
+            test: mysqladmin ping -h 127.0.0.1 -u root --password=root
+            interval: 5s
+            timeout: 30s
+            retries: 10
+
+    # PHPMyAdmin Service
+    phpmyadmin:
+        build:
+            context: ./.docker/phpmyadmin
+            dockerfile: Dockerfile
+        image: phpmyadmin:latest
+        environment:
+            MYSQL_USERNAME: root
+            MYSQL_ROOT_PASSWORD: root
+            PMA_HOST: mysql
+        ports:
+            - "8080:80"
+        restart: always
+        depends_on:
+            - mysql # Ensures MySQL service starts first
+
+volumes:
+    mujeeb-db-data:
