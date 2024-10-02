@@ -1,0 +1,69 @@
+- Lecture 1: Introduction to Git and Github
+    - What is Git?
+        -- it is a devops tool to track changes in code. 
+        -- it is a version control system, it is used to manage code and track changes.
+        -- it is also maintains a history of all changes made to a codebase. and allows developers to revert to previous versions of code.
+    - Two type of version control systems:
+        -- centralized version control system.
+        -- distributed version control system.
+    - centralized version control system:
+        -- The project is located at a single location and all the developers pull the code from the central repository and push the code to the central repository.
+        -- It is easy to setup and use.
+        -- It is a linear workflow, where the developers have to push the code to the central repository and then the code is merged into the main branch.
+        -- It is not suitable for large number of developers.
+    - distributed version control system:
+        -- The project is located at a single location and all the developers have their own copy of the repository.
+        -- It is a non-linear workflow, where the developers can work on the same codebase simultaneously.
+        -- It is suitable for large number of developers.
+    - Centralized Version Control System Diagram:
+        |           Central Repository
+        |                   |
+        |           /       |       \
+        |          /        |        \
+        |         /         |         \
+        |        /          |          \
+        |       /           |           \
+        |      /            |            \
+        |     /             |             \
+        |    /              |              \
+        | Dev 1           Dev 2           Dev 3
+
+    - Distributed Version Control System Diagram: 
+        |     Central Repository
+        |     /      |       \
+        |    /       |        \
+        |   /        |         \
+        |  /         |          \
+        | /          |           \
+        |/           |            \
+        |            |             \
+        |   Local    |    Local     |   Local
+        |   Repo     |    Repo      |   Repo
+        |   Dev 1    |    Dev 2     |   Dev 3
+
+    - Key differences:
+        -- In centralized, developers directly interact with the central repository
+        -- In distributed, each developer has a full local copy of the repository
+        -- Distributed allows for offline work and more flexible branching
+        -- Centralized requires constant connection to the central server
+   
+    - Git vs Github:
+        -- git is a version control software tool, github is a service on cloud platform that uses git to store and manage code.
+        -- git is a local tool, github is a remote tool.
+    
+- Lecture 2: How git works?
+    - 1. Install git -> apt install git
+    - 2. mkdir <folder name> -> to create a new folder
+    - 3. cd <folder name> -> to go inside the folder
+    - 4. git init -> to initialize the git repository
+        -- this creates a hidden folder called .git which stores the metadata of the repository.
+        -- And creates a new branch called master.
+    - 5. git status -> to check the status of the repo.
+    - 6. Make a change to the folder. 
+    - 7. git status -> to check the status of the repo.
+        -- The file comes as untracked file.
+    - 8. git add <file name> -> to add the file to the staging area. 
+    - 9. git log -> shows the commit history. 
+    - 10. If we edit a file. The file is under modified state, because git is tracking it. 
+    - 11. git commit -m "Message" -> to commit the changes. 
+    - 12. 

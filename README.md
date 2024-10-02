@@ -19,12 +19,16 @@ The current contents of this directory include:
 
 As the DevOps roadmap progresses, this directory may grow to include:
 
--   🚢 Containerization and orchestration tools (e.g., Kubernetes)
--   🔄 CI/CD pipeline configurations
--   🏗️ Infrastructure as Code (IaC) scripts
--   ☁️ Cloud platform-specific resources
--   📊 Monitoring and logging tool configurations
--   🛠️ Scripting and automation files
+-   🐙 Git and GitHub version control (🚧 In Progress)
+-   🔄 CI/CD pipeline configurations (e.g., Jenkins, GitLab CI)
+-   🚢 Containerization and orchestration tools (e.g., Docker, Kubernetes)
+-   🏗️ Infrastructure as Code (IaC) scripts (e.g., Terraform, Ansible)
+-   ☁️ Cloud platform-specific resources (e.g., AWS, Azure, GCP)
+-   📊 Monitoring and logging tool configurations (e.g., Prometheus, ELK stack)
+-   🛠️ Scripting and automation files (e.g., Bash, Python)
+-   🔒 Security and compliance practices
+-   🚀 Performance optimization techniques
+-   🧪 Testing strategies for DevOps
 </details>
 
 <details>
