@@ -66,4 +66,149 @@
     - 9. git log -> shows the commit history. 
     - 10. If we edit a file. The file is under modified state, because git is tracking it. 
     - 11. git commit -m "Message" -> to commit the changes. 
-    - 12. 
+    - 12. git diff -> to see the changes made to the file. 
+    *-* apt install gh -> to install github cli.
+    *-* gh auth login -> to login to the github cli before being able to use github cli. 
+    *-* gh repo create -> to create a new repository.
+    *-* personal access token -> is a secret key that can be used to authenticate and authorize access to github api. 
+    - 13. git push -> to push the change to the main branch. 
+    - 14. git clone -> to get a full copy of a remote repository. 
+    - 15. git pull -> to get the latest changes from the remote repository. 
+    - 16. git branch -> to list all the branches. 
+
+- Lecture 3: 30 Git terminologies
+    - 1. repository : a directory that contains all the files and folders of a project. .git is a hidden folder that contains data about the directory. 
+        --*. commit : a snapshot of a repository at a specific point in time. It is a record of changes made to a repository. 
+    - 2. local vs remote repository : 
+        -- local : a repository that is stored on your local machine. 
+        -- remote :  a repository/git directory that is hosted on a remote server/location, can be accessed by your team. 
+    - 3. git working directory : a directory that is tracked by git, it is the directory where you are currently working in. 
+        --*. tracked :  a file that is being monitored by git. Any changes/modification made to the file is monitored by git. 
+    - 4. branch : a branch is a isolated space for a developer to work on a feature without affecting the main branch. Those branches contain basically different version of the main branch. 
+    - 5. checkout : to switch between branches. 
+    - 6. merge : to combine two branches into a single branch. 
+        --*. merge conflict : when two branches try to merge changes to the same line of code. 
+    - 7. pull : To get the latest changes from the remote repo to our local repo. 
+    - 8. push : To send the changes from our local repo to the remote repo to any specific branch. 
+    - 9. status : to check the status of the repo. Displays modified, tracked, and untracked files. 
+    - 10. clone : to create a local copy of a remote repo. 
+    - 11. cherry-pick : to pick a commit from one branch and apply it to another branch. It can also be used to undo a commit. 
+    - 12. fork :  a copy of a repository that is on a remote server. it is a remote repo. 
+    - 13. fetch : to get the latest changes from the remote repo to our local repo. 
+        --*. fetch vs pull : pull fetches the changes and copies the changes to our local repo. fetch just gets the changes but does not copy to our local repo. 
+    - 14. HEAD : it is a default branch in repository. it is the current branch that we are working on. When we switch to a different branch, the HEAD pointer will move to that branch. It can also be used to point a specific commit. 
+    - 15. Index : it is a temporary staging area that holds the files that we want to commit. When we run git add command, the files are added to a cache called index. 
+    - 16. Master/Main :  it is a default branch in repository. Access can be restricted based on neccessity. 
+    - 17. Origin : The remote repository we are using is called origin. Shorthand name for the remote repository. 
+    - 18. Pull Request(PR) : a request to merge one branch to another branch. It is a process to review the code and merge it to the main branch. This is done in case when we do not have access to the main branch.
+    - 19. Rebase : A Git operation that allows you to modify the commit history by moving, combining, or altering a sequence of commits. It works by:
+        -- Temporarily removing commits from the current branch
+        -- Applying these commits on top of the specified base commit
+        -- Creating new commits with the same content but different commit hashes
+        Rebase is similar to merge in that it integrates changes from one branch into another, but it does so by rewriting the commit history to create a linear sequence of commits. Unlike merge, which creates a new commit to combine branches, rebase moves the entire branch to begin on the tip of another branch, resulting in a cleaner project history.
+    - 20. Stash : Temporarily save changes that are not ready to be committed yet. Example: You are working on a feature and you want to switch to another feature but the changes you made are not ready to be committed. You can stash the changes and come back to it later. Git Stash would save the changes without the need to commit them. 
+    - 21. Revert : Revert is a process to undo a commit.
+    - 22. Reset : Reset is used to reset everything to the initial commit. 
+    - 23. gitignore : A file that is used to ignore file and folders from being tracked by git. They are not pushed to the remote repository.
+    - 24. Gist : A feature of GitHub that allows users to share code snippets or small pieces of code. It works by:
+        -- Creating a public or secret gist on GitHub
+        -- Pasting your code snippet into the gist
+        -- Saving and getting a unique URL for the gist
+        -- Sharing the URL with others, who can view, comment on, or fork the gist
+        -- Gists can be embedded in other websites or markdown files
+        -- They are version controlled, allowing you to track changes over time
+    - 25. Diff : to compare files and display the differences between them.
+    - 26. blame : to show the history of a file and who made the changes. 
+    - 27. Log : to show the complete commit history. 
+    - 28. Hook : a script that is used to perform actions at certain points in the git workflow. 
+    - 29. git LFS : git Large File Storage, is a feature of git that is used manage large files in our repo. 
+    - 30. Personal Access Token : is a secret key that is used to authenticate and authorize access to github api. 
+
+- Lecture 4: What is a Git Branch?
+    - It is a working copy of a repository, it is a seperate line of development. 
+    - Developers can work on a specific feature which can be merged to the main branch later. 
+    - The code on the main branch is always in a working state, and no changes are made directly. 
+    - Branches are allowed to work on different features simultaneously. 
+    - git branch {branch name} : to create a new branch.
+    - git checkout {branch name} : to switch to a different branch. 
+    - git push --set-upstream origin {branch name} : to push the branch to the remote repository.
+    - git branch -m feature-2 {new branch name}
+    - Switch to main branch and than run -> git merge {[branch names]}
+
+- Lecture 5: 50 Git Commands
+    - git help : to get help on git commands.
+    - git init : to initialize a new git repository. 
+    - git status : to check the status of the repo.
+    - git add : to add changes to the staging area.
+    - git clone URL : to get a copy of a remote repository. 
+    - git diff : to see the changes made to the file. 
+    - git commit -m "Message" : to commit the changes. 
+    - git log : to show the commit history. 
+    - git log -1 :  to show the last commit.
+    - git config user.name {new username} : to set the author name. 
+    - git config user.email {new email} : to set the author email.
+    - git branch : to list all the branches.
+    - git config --global user.name {new username} : to set the author name globally.
+    - git config --global user.email {new email} : to set the author email globally.
+    - git log --oneline : to show the commit history in a single line. 
+    - git log -p : to show the differences between the different commits
+    - git log --stat : to show the files that are changed in each commit.
+    - git log --author="Author Name" : to show the commit history of a specific author.
+    - git log --since=2024-01-01 : to show the commit history since a specific date.
+    - git log --until=2024-01-01 : to show the commit history until a specific date.
+    - git log --grep="Commit Message" : to show the commit history of a specific commit message.
+    - git log --graph : to show the commit history in a graph format.
+    - git log --pretty=format:"%h - %an, %ar : %s" : to show the commit history in a specific format.
+    - git commit --amend : to modify the last commit message. 
+    - git checkout {branch-name} :  to switch to a different branch. 
+    - git checkout -b {branch-name} : to create a new branch and switch to it. 
+    - git merge {branch-name} 
+    - git revert {commit-hash} : to undo a specific commit. 
+    - git remote -v : to show the remote repository.
+    - git pull origin main : to get the latest changes from the remote repository to the local repository. 
+    - git fetch : it only informs if any changes are made to the remote repository.
+    - git remote add origin {URL} : to link our local repo to a remote repo. 
+    - git remote remove origin : to remove the link between local and remote repo.
+    - git push origin {branch-name} : to push the branch to the remote repository.
+    - git push origin --delete {branch-name} : to delete a branch from the remote repo. 
+    - git push --force : to force push the changes to the remote repository. 
+    - git push --all : to push all the branches to the remote repository. 
+    - git stash: 
+        -- modify a file
+        -- git stash save "message" : to save the changes to the stash.
+        -- git stash show -p : to show the changes made to the file.
+        -- Now we can switch to another branch and than apply the changes to the new branch.
+    - git rebase:
+        -- make changes to a file
+        -- git add .
+        -- git commit -m "message"
+        -- now we can checkout to another branch. 
+        -- git rebase {branch-name}
+        -- After rebase, any change in the rebased branch will be reflected in the 2nd branch.
+    - git reset --hard : to reset the branch.
+    - git reset {commit-hash} : to reset the branch to a specific commit.
+    - github cli
+        -- gh auth login : to login to the github cli.
+        -- gh repo create : to create a new repository
+        -- gh repo clone {repo-name} : to clone a remote repository.
+        -- github cli commands are similar to git commands, but they are used to interact with the github api, and interact with the remote repositories. 
+        -- gh actions : to run the workflow of the repository.
+        
+
+
+
+                                                    =====================================================
+                                                    ||                                                 ||
+                                                    ||             End of GitHub Notes                 ||
+                                                    ||                                                 ||
+                                                    ||  _____ _ _   _   _       _                      ||
+                                                    || |  __ (_) | | | | |     | |                     ||
+                                                    || | |  \/_| |_| |_| |_   _| |__                   ||
+                                                    || | | __| | __| __| | | | | '_ \                  ||
+                                                    || | |_\ \ | |_| |_| | |_| | |_) |                 ||
+                                                    ||  \____/_|\__|\__|_|\__,_|_.__/                  ||
+                                                    ||                                                 ||
+                                                    ||          Happy Version Controlling!             ||
+                                                    ||                                                 ||
+                                                    =====================================================
+
