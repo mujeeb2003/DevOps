@@ -1,0 +1,57 @@
+Lecture - 1:
+    CI - continuous integration
+        -- Strategy that speeds up development and deployment of a software. A strategy/tool that automates the building of newly commited to ensure the code works. 
+        --                 ___________________
+                          |     Developer    |
+                          |__________________|
+                                    |
+        --                 ___________________
+                          |     commit       |
+                          |__________________|
+                                    |
+        --                 ___________________
+                          |        Git       |
+                          |__________________|
+                                    | fetches the changes
+        --                 ___________________
+                          |     Jenkins      |
+                          |__________________|
+                                    | 
+                          Fails |________| Passes
+
+    CD - continuous delivery/deployment
+        -- Deployment V/S Delivery
+            -- Deployment is without any manual intervention
+            -- Delivery has manual intervention
+        -- used to deploy to our production/development/staging environment.
+    
+    -- We benefit from these automated strategy by making deployment quick and ensuring the code follows industry standards and is tested. 
+
+Lecture - 2:
+    - What is a CI/CD pipeline?
+        -- Stage 1: 
+            - Code commit/checkout: Pipelines are triggered to start the building process automatically as soon as code is commited. 
+            - Webhooks are used to create these triggers. Hooks are scripts that allow us to perform actions at certain point in a git workflow. 
+            
+        -- Stage 2:
+            - Code build/compilation:
+                -- 1. Compilation of code
+                -- 2. Packaging dependencies
+                -- 3. Artifact <--> binary
+        -- Stage 3:
+            - Code Testing: (Generic Steps, each company can have their own testing steps)
+                -- 1. Unit Testing: Checks code for errors
+                -- 2. Integration Testing: Tests all the components/services/modules to make sure they integrate and work flawlessly. 
+        -- Stage 4:
+            - Code Packaging: Now we can create a docker image/binary. Docker files are used to create docker images. 
+        -- Stage 5:
+            - Deploy our executable image to a container:
+                -- 1. Image Registry
+                -- 2. Authenticate deployment server. 
+                -- 3. Than we can pull our image and run it into a container. 
+        
+
+
+
+
+
