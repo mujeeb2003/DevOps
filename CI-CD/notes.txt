@@ -50,7 +50,32 @@ Lecture - 2:
                 -- 2. Authenticate deployment server. 
                 -- 3. Than we can pull our image and run it into a container. 
         
+Lecture - 3:
+    - Github Actions 
+        - Example yml file.
+            -- name: My Docker Image CI
+            -- on: (These are the webhooks or triggers to trigger the pipeline)
+                push:
+                    branches: ["main"]
+                pull_request:
+                    branches: ["main"]
+            
+            -- jobs:
+                build:
+                    runs-on: ubuntu-latest //github actions runner 
+                    steps:
+                    - uses: actions/checkout@v4 //when building, this action of checkout is used. 
 
+                    - name: Build the docker image
+                      run : docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+                    
+                    - name: Release of the github actions runner
+                      run : |
+                        uname -a
+                        cat /etc/issue
+                        touch abc.txt
+
+        -- The action work on the github workspace, and github workspace is the actions runner workspace github actions creates. 
 
 
 
