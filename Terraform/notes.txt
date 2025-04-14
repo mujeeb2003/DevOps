@@ -1,0 +1,74 @@
+ISO for linux: hyrenrescue
+
+Introduction:
+    - falls under the category of IaC.
+        - benefits 
+            -- reusability
+            -- consistent
+            -- shareable
+    
+    - IaC categories:
+        - Ad-hoc scripts:
+            -- bash, python etc
+        - configuration management:
+            -- ansible, puppet
+        - Provisioning:
+            -- terraform, ARM(azure resource manager)
+        
+    what is terraform:
+        - owned by hashicorp
+        - code is done in HCL
+        - used to build, change and manage cloud infrastructure
+
+    terraform workflow:
+        - init -> plan -> apply -> destroy
+
+    Basic terminologies:
+        - terraform core: terraform binary that serves as the root command
+        - providers: 
+            -- three types
+                1. official
+                2. verified
+                3. community
+        
+        - In the beginning of the file we define the provider block
+        - Than we can define the variable block
+        - Than we can have a resource block
+
+    - lifecycle rules: to place restrictions.
+
+Basic commands:
+    - terraform 
+        -- version
+        -- providers: cloud provider
+        -- fmt :used for formatting
+        -- init: used to initialize
+        -- validate: validates the tf code
+        -- plan: dry run
+        -- apply: apply the changes
+        -- destroy: destroy the infrasture
+        -- show: displays the current deployment state
+        -- state list: displayes the resources that are deployed through apply
+        -- output: 
+        -- refresh: updates the state file with metadata with physical resources, used when any update is done on console
+        -- force-unlock: 
+        -- taint/untaint: mark any resource for recreation
+        -- import: we can import the infrasture to terraform
+
+    - hashicorp documentation gives the complete explanation and code example for all resources. 
+
+    FQDN(specific, complete, and includes hostname as well) vs DN(only mentions the domain name such as gmail.com)
+
+    local values: mainly tags
+        - can be defined in locals module
+    output values: return values
+        - 
+
+    Lifecycle Rule:
+        - prevents accidental deletion from terraform
+    
+    Terraform dependancy tree:
+        - we can define the resources that are depending on another resource which needs to be deployed first. 
+    
+    
+

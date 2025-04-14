@@ -1,0 +1,316 @@
+Chapter 1. Containers and kubernetes
+
+Containers and Kubernetes
+    Objectives
+        Describe the main characteristics of containers and Kubernetes.
+    Introduction to Containers and Kubernetes
+    Red Hat OpenShift Container Platform (RHOCP) is a complete platform to run applications in clusters of servers. OpenShift is based on existing technologies such as containers and Kubernetes. Containers provide a way to package applications and their dependencies that can be executed on any system with a container runtime.
+
+    Kubernetes provides many features to build clusters of servers that run containerized applications. However, Kubernetes does not intend to provide a complete solution, but rather provides extension points so system administrators can complete Kubernetes. OpenShift builds on the extension points of Kubernetes to provide a complete platform.
+
+Containers Overview
+    A container is a process that runs an application independently from other containers on the host. Containers are created from a container image, which includes all the runtime dependencies of the application. Containers can then be executed on any host, without requiring the installation of any dependency on the host, and without conflicts between the dependencies of different containers.
+
+    Figure 1.1: Applications in containers versus on the host operating system
+    Containers use Linux kernel features, such as namespaces and control groups (cgroups). For example, containers use cgroups for resource management, such as CPU time allocation and system memory. Namespaces isolate a container's processes and resources from other containers and the host system.
+
+    The Open Container Initiative (OCI) maintains standards about containers, container images, and container runtimes. Because most container engine implementations are designed to conform to the OCI specifications, applications that are packaged according to the specification can run on any conforming platform.
+
+Kubernetes Overview
+    Kubernetes is a platform that simplifies the deployment, management, and scaling of containerized applications.
+
+    You can run containers on any Linux system by using tools such as Podman. Further work is required to create containerized services that, for example, can run across a cluster for redundancy.
+
+    Kubernetes creates a cluster that runs applications across multiple nodes. If a node fails, then Kubernetes can restart an application in a different node.
+
+    Kubernetes uses a declarative configuration model. Kubernetes administrators write a definition of the workloads to execute in the cluster, and Kubernetes ensures that the running workloads match the definition. For example, an administrator defines several workloads. Each workload defines the amount of required memory. Kubernetes then creates the necessary containers in different nodes, to meet the memory requirements.
+
+    Kubernetes defines workloads in terms of pods. A pod is one or multiple containers that run in the same cluster node. Pods with multiple containers are useful in certain situations, when two containers must run in the same cluster node to share some resource. For example, a job is a workload that runs a task in a pod until completion.
+
+Kubernetes Features
+    Kubernetes offers the following features on top of a container infrastructure:
+
+    Service discovery and load balancing
+    Distributing applications over multiple nodes can complicate communication between applications.
+
+    Kubernetes automatically configures networking and provides a DNS service for pods. With these features, pods can communicate with services from other pods transparently across nodes by using only hostnames instead of IP addresses. Multiple pods can back a service for performance and reliability. For example, Kubernetes can evenly split incoming requests to an NGINX web server by considering the availability of the NGINX pods.
+
+    Horizontal scaling
+    Kubernetes can monitor the load on a service, and create or delete pods to adapt to the load. With some configurations, Kubernetes can also provision nodes dynamically to accommodate cluster load.
+
+    Self-healing
+    If applications declare health check procedures, then Kubernetes can monitor, restart, and reschedule failing or unavailable applications. Self-healing protects applications both from internal failure (the application stops unexpectedly) or external failure (the node that runs the application becomes unavailable).
+
+    Automated rollout
+    Kubernetes can gradually roll out updates to your application's containers. If something goes wrong during the rollout, then Kubernetes can roll back to the previous version of the deployment. Kubernetes routes requests to the rolled out version of the application, and deletes pods from the previous version when the rollout completes.
+
+    Secrets and configuration management
+    You can manage the configuration settings and secrets of your applications without requiring changes to containers. Application secrets can be usernames, passwords, and service endpoints, or any configuration setting that must be kept private.
+
+    Note
+    Kubernetes does not encrypt secrets.
+
+    Operators
+    Operators are packaged Kubernetes applications that can manage Kubernetes workloads in a declarative manner. For example, an operator can define a database server resource. If the user creates a database resource, then the operator creates the necessary workloads to deploy the database, configure replication, and back up automatically.
+
+Kubernetes Architectural Concepts
+    Kubernetes uses several servers (also called nodes) to ensure the resilience and scalability of the applications that it manages. These nodes can be physical or virtual machines. The nodes come in two types, each of which provides a different aspect of the cluster operations.
+
+    Control plane nodes provide global cluster coordination for scheduling the deployed workloads. These nodes also manage the state of the cluster configuration in response to cluster events and requests.
+
+    Compute plane nodes run the user workloads.
+
+
+    Figure 1.2: Kubernetes components
+    Although a server can act as both a control plane node and a compute node, the two roles are usually separated for increased stability, security, and manageability. Kubernetes clusters can range from small single-node clusters, to large clusters with up to 5,000 nodes.
+
+The Kubernetes API and Configuration Model
+    Kubernetes provides a model to define the workloads to run on a cluster.
+
+    Administrators define workloads in terms of resources.
+
+    All resource types work in the same way, with a uniform API. Tools such as the kubectl command can manage resources of all types, even custom resource types.
+
+    Kubernetes can import and export resources as text files. By working with resource definitions in text formats, administrators can describe their workloads instead of performing the right sequence of operations to create them. This approach is called declarative resource management.
+
+
+    Figure 1.3: Declarative resource management
+    Declarative resource management can reduce the work to create workloads and improve maintainability. Additionally, when using text files to describe resources, administrators can use generic tools such as version control systems to gain further benefits such as change tracking.
+
+    To support declarative resource management, Kubernetes uses controllers that continuously track the state of the cluster and perform the necessary steps to keep the cluster in the intended state. This process means that changes to resources often require some time to be effective. However, Kubernetes can automatically apply complex changes. For example, if you increase the RAM requirements of an application that cannot be satisfied on the current node, then Kubernetes can move the application to a node with sufficient RAM. Kubernetes redirects traffic to the new instance only when the movement is complete.
+
+    Kubernetes also supports namespaces. Administrators can create namespaces, and most resources must be created inside a namespace. Besides helping organize large amounts of resources, namespaces provide the foundations for features such as resource access. Administrators can define permissions for namespaces, to allow specific users to view or modify resources.
+
+    Starting openshift api and console
+        - ssh lab@utility
+        - ./wait.sh
+        - oc login -u admin -p **** https://api.ocp4.example.com:6443
+        - oc whoami --show-console --> gets the console link of openshift api
+        
+        - lab start {name}
+        - lab finish {name}
+
+Summary Chapter 1
+A container is an encapsulated process that includes the required runtime dependencies for an application to run.
+
+Containerization addresses the application development challenges around code portability, to aid in consistently running an application from diverse environments.
+
+Containerization also aims to modularize applications to improve development and maintenance on the various components of the application.
+
+When running containers at scale, it becomes challenging to configure and deliver high availability applications and to set up networking without a container platform, such as Kubernetes.
+
+Pods are the smallest organizational unit for a containerized application in a Kubernetes cluster.
+
+RedÂ Hat OpenShift Container Platform (RHOCP) adds enterprise-class functions to the Kubernetes container platform to deliver the wider business needs.
+
+Most administrative tasks that cluster administrators and developers perform are available through the RHOCP web console.
+
+Logs, metrics, alerts, terminal connections to the nodes and pods in the cluster, and many other features are available through the RHOCP web console.
+
+
+Chapter 2: Command line
+    - basic commands: 
+        - to login: oc login -u {username} -p {password} {api_url}
+        - to check console url: oc whoami --show-console
+        - to get the project: oc project
+        - to get the nodes in the project: oc get nodes
+        - to get the pods in the project: oc get pods
+        - to change project: oc project {project_name}
+        - oc get all: to get almost all resources
+
+        - oc describe {service_type}/{service_name}
+            - oc describe svc/web1
+        - oc version to get the version of openshift
+        - oc cluster-info
+        - kubectl 
+        **- If something is a namespace than it is creted in a project. If something is not a namespace than it is not created in a project, rather it is called cluster-resource
+        -  oc api-versions
+
+        [student@workstation ~]$ oc get clusteroperator
+        NAME                        VERSION   AVAILABLE   PROGRESSING   DEGRADED   SINCE ...
+        authentication              4.14.0    True        False         False      18d
+        baremetal                   4.14.0    True        False         False      18d
+        cloud-controller-manager    4.14.0    True        False         False      18d
+        cloud-credential            4.14.0    True        False         False      18d
+        cluster-autoscaler          4.14.0    True        False         False      18d
+        config-operator             4.14.0    True        False         False      18d
+        console                     4.14.0    True        False         False      18d
+        control-plane-machine-set   4.14.0    True        False         False      18d
+        csi-snapshot-controller     4.14.0    True        False         False      18d
+        dns                         4.14.0    True        False         False      5h24m
+        etcd                        4.14.0    True        False         False      18d
+        image-registry              4.14.0    True        False         False      18d
+        ingress                     4.14.0    True        False         False      18d
+        ...output omitted...
+
+        Use the get command to list pods in the openshift-api project. Specify the project with the -n option.
+        [student@workstation ~]$ oc get pods -n openshift-apiserver
+        NAME                         READY   STATUS    RESTARTS   AGE
+        apiserver-68c9485699-ndqlc   2/2     Running   6          18d
+
+        - Use the oc status command to retrieve the status of resources in the openshift-authentication project.
+        [student@workstation ~]$ oc status -n openshift-authentication
+        Warning: apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+        In project openshift-authentication on server https://api.ocp4.example.com:6443
+
+        https://oauth-openshift.apps.ocp4.example.com (passthrough) to pod port 6443 (svc/oauth-openshift)
+        deployment/oauth-openshift deploys quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:64e6...de42
+            deployment #7 running for 2 weeks - 1 pod
+            deployment #6 deployed 2 weeks ago
+            deployment #4 deployed 2 weeks ago
+            deployment #5 deployed 2 weeks ago
+            deployment #3 deployed 2 weeks ago
+            deployment #2 deployed 2 weeks ago
+            deployment #1 deployed 2 weeks ago
+        ...output omitted...
+
+        - [user@host ~]$ oc api-resources
+        NAME                    SHORTNAMES   APIVERSION   NAMESPACED   KIND
+        bindings                             v1           true         Binding
+        componentstatuses       cs           v1           false        ComponentStatus
+        configmaps              cm           v1           true         ConfigMap
+        endpoints               ep           v1           true         Endpoints
+        ...output omitted...
+        daemonsets              ds           apps/v1      true         DaemonSet
+        deployments             deploy       apps/v1      true         Deployment
+        replicasets             rs           apps/v1      true         ReplicaSet
+        statefulsets            sts          apps/v1      true         StatefulSet
+        ...output omitted...
+        The SHORTNAME for a component helps to minimize typing long CLI commands. For example, you can use oc get cm instead of oc get configmaps.
+
+        The APIVERSION column divides the objects into API groups. The column uses the <API-Group>/<API-Version> format. The API-Group object is blank for Kubernetes core resource objects.
+
+        Many Kubernetes resources exist within the context of a Kubernetes namespace. Kubernetes namespaces and OpenShift projects are broadly similar. A 1:1 relationship always exists between a namespace and an OpenShift project.
+        The KIND is the formal Kubernetes resource schema type.
+
+    - oc adm inspect deploy/web1 --dest-dir deploy_web1: saves the deployments health and diaganostic to a directory
+
+    Summary
+    An RHOCP cluster can be managed from the web console or by using the kubectl or oc command-line interfaces (CLI).
+
+    Use the --help option on any command to view detailed information about the command.
+
+    Projects provide isolation between your application resources.
+
+    Token authentication is the only guaranteed method to work with any RHOCP cluster, because enterprise SSO might replace the login form of the web console.
+
+    All administrative tasks require creating, viewing, and changing the API resources.
+
+    Kubernetes provides YAML- and JSON-formatted output options, which are ideal for parsing or scripting.
+
+    Operators provide the means of monitoring applications, performing health checks, managing over-the-air (OTA) updates, and ensuring that applications remain in your specified state.
+
+    The RHOCP web console incorporates useful graphs to visualize cluster and resource analytics.
+
+    The RHOCP web console provides an interface for executing Prometheus queries, visualizing metrics, and configuring alerts.
+
+    The monitoring stack is based on the Prometheus project, and it is configured to monitor the core RHOCP cluster components, by default.
+
+    RHOCP provides the ability to view logs in running containers and pods to ease troubleshooting.
+
+    You can collect resource definitions and service logs from your cluster by using the oc adm must-gather command.
+
+Chapter 3: Container and kubernetes:
+
+    - login and create a new project -- oc login -- oc new-project {project name}
+    - to describe a project -- oc describe project pods-container
+    - to create a new pod and run a command of whoami --> oc run -it {pod-name} --restart 'Never' --image {image-link, ex: registry.ocp4.example.com:8443/ubi9/ubi}  -- /bin/bash -c "whoadmi && id"
+    - oc delete pod ubi9-user: to delete a pod
+    - pods can have varying privileges based on the user creating them
+    - to get logs of a pod: oc logs {pod-name}
+    - to resume a session of pod after exiting: oc attach {pod-name} -c {pod-name} -it
+    - to get the last 10 lines of logs of a pod: oc logs {pod-name} --tail 10
+    - to get info of pod stored in etcd: oc get pod {pod-name} -o json | jq .status.containerStatuses[].name
+    - oc get pods pod-name -o wide: ip, node and etc info about the pod
+    - oc debug node/master01: to get debug of the node the pod is running on
+
+    - to get data from crictl{this is the client tool that interfaced with crio which is the containre runtime } : crictl ps --name ubi9-command -o json |jq -r .container[0].id
+    - crictl pods --namespace {name}
+    - to get the info about debug pod: crictl pods --name master01-debug
+    - gets the containers in that pod: crictl ps -p master01-debug-id -o json | jq -r .containers[0].metadata.name
+    - crictl ps --name container-00 -o json | jq -r .containers[0].id
+    - to store the container id in an env we can use the command: DCID=$(crictl ps --name container-00 -o json | jq -r .containers[0].id)
+    - crictl inspect $CID | grep pid -- OR critctl inspect {container-id} -o json | jq -r .info.id --> we can get the process id
+    - lsns -p {process_id}
+    - to get the command that are running inside a pod: crictl exec -it {id} ps -ef
+    - 
+
+
+
+Reviewing Red Hat OpenShift Administration I: Operating a Production Cluster
+Before beginning the comprehensive review for this course, you should be comfortable with the topics covered in each chapter. Do not hesitate to ask the instructor for extra guidance or clarification on these topics.
+
+Chapter 1, Introduction to Kubernetes and OpenShift
+Identify the main Kubernetes cluster services and OpenShift platform services and monitor them by using the web console.
+
+Describe the main characteristics of containers and Kubernetes.
+
+Describe the relationship between OpenShift, Kubernetes, and other Open Source projects, and list key features of Red Hat OpenShift products and editions.
+
+Navigate the OpenShift web console to identify running applications and cluster services.
+
+Navigate the Events, Compute, and Observe panels of the OpenShift web console to assess the overall state of a cluster.
+
+Chapter 2, Kubernetes and OpenShift Command-line Interfaces and APIs
+Access an OpenShift cluster by using the command line and query its Kubernetes API resources to assess the health of a cluster.
+
+Access an OpenShift cluster by using the Kubernetes and OpenShift command-line interfaces.
+
+Query, format, and filter attributes of Kubernetes resources.
+
+Query the health of essential cluster services and components.
+
+Chapter 3, Run Applications as Containers and Pods
+Run and troubleshoot containerized applications as unmanaged Kubernetes pods.
+
+Run containers inside pods and identify the host OS processes and namespaces that the containers use.
+
+Find containerized applications in container registries and get information about the runtime parameters of supported and community container images.
+
+Troubleshoot a pod by starting additional processes on its containers, changing their ephemeral file systems, and opening short-lived network tunnels.
+
+Chapter 4, Deploy Managed and Networked Applications on Kubernetes
+Deploy applications and expose them to network access from inside and outside a Kubernetes cluster.
+
+Identify the main resources and settings that Kubernetes uses to manage long-lived applications and demonstrate how OpenShift simplifies common application deployment workflows.
+
+Deploy containerized applications as pods that Kubernetes workload resources manage.
+
+Interconnect applications pods inside the same cluster by using Kubernetes services.
+
+Expose applications to clients outside the cluster by using Kubernetes ingress and OpenShift routes.
+
+Chapter 5, Manage Storage for Application Configuration and Data
+Externalize application configurations in Kubernetes resources and provision storage volumes for persistent data files.
+
+Configure applications by using Kubernetes secrets and configuration maps to initialize environment variables and to provide text and binary configuration files.
+
+Provide applications with persistent storage volumes for block and file-based data.
+
+Match applications with storage classes that provide storage services to satisfy application requirements.
+
+Deploy applications that scale without sharing storage.
+
+Chapter 6, Configure Applications for Reliability
+Configure applications to work with Kubernetes for high availability and resilience.
+
+Describe how Kubernetes tries to keep applications running after failures.
+
+Describe how Kubernetes uses health probes during deployment, scaling, and failover of applications.
+
+Configure an application with resource requests so Kubernetes can make scheduling decisions.
+
+Configure an application with resource limits so Kubernetes can protect other applications from it.
+
+Configure a horizontal pod autoscaler for an application.
+
+Chapter 7, Manage Application Updates
+Manage reproducible application updates and rollbacks of code and configurations.
+
+Relate container image tags to their identifier hashes, and identify container images from pods and containers on Kubernetes nodes.
+
+Update applications with minimal downtime by using deployment strategies.
+
+Ensure reproducibility of application deployments by using image streams and short image names.
+
+Ensure automatic update of application pods by using image streams with Kubernetes workload resources.

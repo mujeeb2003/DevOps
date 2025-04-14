@@ -1,0 +1,99 @@
+Networking in Linux: Key Concepts
+
+Basic Network Concepts
+- A network connects two or more computers (A and B) via a switch
+- Each host needs a network interface (physical or virtual)
+- Use `ip link` to view network interfaces on a host
+- Network addresses use format like 192.168.1.0
+
+IP Addressing
+- Systems need IP addresses on the same network to communicate
+- Use `ip addr` command to view IP addresses
+- Use `ip addr add` to assign addresses to interfaces
+- Example: `ip addr add 192.168.1.10/24 dev eth0`
+- Changes made this way aren't persistent after reboot
+- For persistence, configure in `/etc/network/interfaces`
+
+Routing Between Networks
+- Switches only connect systems within the same network
+- Routers connect different networks (e.g., 192.168.1.0 and 192.168.2.0)
+- Routers need IP addresses on each network they connect to
+- View routing table with `route` or `ip route` command
+- Add routes with `ip route add [destination_network] via [gateway_ip]`
+- Example: `ip route add 192.168.2.0/24 via 192.168.1.1`
+
+Gateways and Default Routes
+- Gateway is the "door" to other networks
+- Configure default gateway for all unknown destinations
+- `ip route add default via 192.168.1.1`
+- Alternative syntax: `ip route add 0.0.0.0/0 via 192.168.1.1`
+- Multiple routers require separate routing entries for each network
+
+Linux as a Router
+- Linux can act as a router between networks with multiple interfaces
+- Example: Host B with interfaces on both 192.168.1.0 and 192.168.2.0 networks
+- Configure routing on connected hosts to use Linux router
+- Example: `ip route add 192.168.2.0/24 via 192.168.1.6` on Host A
+
+IP Forwarding
+- By default, Linux doesn't forward packets between interfaces (security feature)
+- Check forwarding status: `cat /proc/sys/net/ipv4/ip_forward`
+- Enable forwarding temporarily: `echo 1 > /proc/sys/net/ipv4/ip_forward`
+- For persistence across reboots, set in `/etc/sysctl.conf`
+
+Key Network Commands
+- `ip link` - List and modify network interfaces
+- `ip addr` - View IP addresses
+- `ip addr add` - Assign IP addresses to interfaces
+- `ip route` or `route` - View routing table
+- `ip route add` - Add entries to routing table
+
+DNS in Linux: Key Concepts
+
+Basic DNS Concepts
+- DNS (Domain Name System) translates hostnames to IP addresses (name resolution)
+- Before DNS, hosts used local `/etc/hosts` file to map hostnames to IP addresses
+- Local hostname resolution becomes unmanageable in large networks
+
+Local Hostname Resolution
+- `/etc/hosts` file maps IP addresses to hostnames
+- Format: `<IP address> <hostname>`
+- Example: `192.168.1.11 db`
+- Multiple names can point to same IP address
+- System doesn't verify if hostname is accurate
+
+DNS Server Configuration
+- DNS servers centralize hostname resolution management
+- Configure DNS client with `/etc/resolv.conf`
+- Add DNS server with: `nameserver <IP address>`
+- Multiple nameservers can be configured
+
+Name Resolution Order
+- Resolution order defined in `/etc/nsswitch.conf`
+- Default order: check local files first (`/etc/hosts`), then DNS servers
+- Order can be modified by editing this file
+
+Domain Resolution
+- External DNS uses hierarchical structure
+- Format: `[subdomain].[domain].[TLD]`
+- Example: `www.google.com`
+    - `.` - root
+    - `com` - top-level domain (TLD)
+    - `google` - domain name
+    - `www` - subdomain
+
+Search Domains
+- Configure search domains in `/etc/resolv.conf`
+- `search mycompany.com prod.mycompany.com`
+- Allows use of short hostnames within organization
+- When you ping "web", system tries "web.mycompany.com"
+
+DNS Record Types
+- A record: Maps hostname to IPv4 address
+- AAAA record: Maps hostname to IPv6 address
+- CNAME record: Maps one hostname to another (aliases)
+
+DNS Troubleshooting Tools
+- `ping`: Basic connectivity test (uses both `/etc/hosts` and DNS)
+- `nslookup`: Query DNS server directly (ignores `/etc/hosts`)
+- `dig`: Detailed DNS query tool with comprehensive output

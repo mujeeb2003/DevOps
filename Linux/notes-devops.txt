@@ -184,6 +184,14 @@ Linux Notes(DevOps):
             - apt-get autoremove : to remove unnecessary packages
             - apt-get clean : to clean the package cache
 
+            - rpm -i to install a package
+            - rpm -e to remove a package
+            - rpm -q to check if it is installed. 
+
+            - yum install to install a package
+            - yum remove to remove a package
+            - yum list packagename: to list available and installed packages. 
+
         - Daemon/Service management:
             - service {service-name} start : to start a service
             - service {service-name} stop : to stop a service

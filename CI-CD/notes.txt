@@ -28,6 +28,7 @@ Lecture - 1:
     -- We benefit from these automated strategy by making deployment quick and ensuring the code follows industry standards and is tested. 
 
 Lecture - 2:
+
     - What is a CI/CD pipeline?
         -- Stage 1: 
             - Code commit/checkout: Pipelines are triggered to start the building process automatically as soon as code is commited. 
@@ -40,8 +41,11 @@ Lecture - 2:
                 -- 3. Artifact <--> binary
         -- Stage 3:
             - Code Testing: (Generic Steps, each company can have their own testing steps)
-                -- 1. Unit Testing: Checks code for errors
+                -- 1. Unit Testing: Checks code for errors, testing a code with respect to a functionality.
+
                 -- 2. Integration Testing: Tests all the components/services/modules to make sure they integrate and work flawlessly. 
+                -- 3. Code Quality/Vulnerability: Checking for vulnerability in environment version
+                -- 4. Static Code Analysis: memory allocation analysis, checks the syntactical and formatting of the code. No unnecessary variables etc.
         -- Stage 4:
             - Code Packaging: Now we can create a docker image/binary. Docker files are used to create docker images. 
         -- Stage 5:
@@ -49,6 +53,7 @@ Lecture - 2:
                 -- 1. Image Registry
                 -- 2. Authenticate deployment server. 
                 -- 3. Than we can pull our image and run it into a container. 
+                -- For CD, we should use gitOps tools like argo to 
         
 Lecture - 3:
     - Github Actions 
@@ -78,5 +83,9 @@ Lecture - 3:
         -- The action work on the github workspace, and github workspace is the actions runner workspace github actions creates. 
 
 
-
+    - Jenkins
+        - Traditionally, the architecture followed by organisations was one jenkin master was set up for scheduling and seperate jekin worker nodes were set up. 
+        - The problem was that each jenkin worker nodes is a seperate machine and machines that are sitting idle than the resources are being wasted. 
+        - To solve this problem, we use Jenkins with docker containers as agents. Again the main benefit is lightweight and easy to update and change versions and configurations. 
+        
 
