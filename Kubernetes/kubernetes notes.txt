@@ -1,0 +1,102 @@
+introduction: 
+    - open source system used for automated deployment, scaling and management of containerized applications
+    - was developed by google now looked after by CNCF
+
+Core features:
+    - container orchestration
+    - self healing(restarts, rescheduling)
+    - load balancing and service discovery
+    - automated rollouts and rollbacks
+
+benefits:
+    - portability: runs on any infra
+    - scalability: auto scaling of applications based on GPU, memory or custom metrics
+    - resilience: self healing for failed containers or nodes
+    - efficiency: optimizes resource usage through job scheduling
+
+Terminologies: 
+    - container: a lightweight standalone executable package containing all the necessary packages and dependencies needed to run an applications
+        - images are used to create containers
+        - shared host kernel
+        - are isolated on the same host
+    
+    - pods: The smallest deployment unit in kubernetes
+        - A logical grouping of one or more containers that share:
+            - network space
+            - storage volume   
+            - lifecycle
+        - key points:
+            - ephemeral: can be replaced any time
+    
+    - node: a physical machine or VM responsible of running pods
+        - Types:
+            - worker node: 
+                - runs pods( means the applications are running on these nodes)
+                - Components:
+                    - kubelet (communicates with the control plane/master node)
+                    - kube-proxy: manages networking
+                    - container runtime: (previously Docker, now containerd)
+            - master node:
+                - Cluster management: (scaling, healing, scheduling)
+    
+    - cluster: A set of nodes that collectively run containerized applications
+        - Consists of worker(vms) and master node(api server, scheduler, etcd)
+
+Architecture: Consists of control plane and worker nodes
+    - Control node components:
+        - kube-apiserver:
+            - frontend of the control plane, exposes the kubernetes api to execute commands such as kubectl get pods
+            - acts as a gateway to our cluster, authenticates and authorizes requests
+            - communicates with other components to serve the requests
+        - etcd:
+            - A complete blueprint of a cluster. Contains complete information related to the cluster, the current state, desired state and the cluster components information(nodes, pods, services)
+            - A user does not directly access the etcd, it can only interact with it through kube-apiserver
+        - kube-scheduler:
+            - Assign pods onto nodes that are most suitable based on resource requirements
+            - Decision Factors:
+                - Memory
+                - pods priority
+                - taints/tolerations: node specific
+                    Taint: A property you apply to a Node. It marks the node so that the scheduler will not place any pods on it by default.
+                    Toleration: A property you apply to a Pod. It acts like a special key or permission slip that allows the pod to ignore a matching taint and be scheduled on that node.
+                - Affinity/anti-affinity rules: pod specific
+                    Affinity: A property or preference of a pod to be placed on a node that meets the certain criteria
+                    Anti Affinity: A property or preference of a pod to not be placed on a node that meets the certain criteria
+            - workflow:
+                - watches for any new pod creation via kube-apiserver
+                - selects the best node for it
+                - updates etcd by informing the apiserver
+        - kube-controller-manager:
+            - Responsible of keeping the cluster state according to the desired state mentioned in the yaml deployment file. 
+            - Controller Types:
+                - Node controller: monitors the node status
+                - deployment controller: Manages the replica sets for rolling updates
+                - endpoint controller: updates services with pod ips
+                - namespace controller: Manages lifecycle of namespaces
+    
+    - Worker node components:
+        - kubelet:
+            Manages the lifecycle of a pod
+                - Starting/stopping/restarting them
+                - ensuring pod is according to the specs mentioned in etcd, communicated via kube-apiserver
+                - Reports the nodes and pods status to control plane
+                - executes health check
+        - kube-proxy:
+            It acts as a routing proxy where requests are routed according to the iptables it has and it updates on any change occurring in the cluster. Implements the kubernetes service components(nodeport, clusterip, loadbalancer)
+                - uses iptables to forward the traffic
+                - Ensures each pod has unique ip, even across nodes
+                - handles load balancing for a service
+        - container-runtime
+            - The underlying technology responsible for executing the containers, and runs applications on them.
+        
+    
+    Q. What are Services (and NodePort)?
+        Pods are temporary—they can be destroyed and replaced at any time, getting a new IP address each time. This creates a problem: how can other applications reliably connect to them?
+        A Service solves this problem. It provides a stable, single point of contact for a group of Pods.
+        How it works: A Service gets its own stable IP address (called a ClusterIP) and a DNS name. It uses labels to identify which Pods it should send traffic to. When a request hits the Service's IP, kube-proxy (on each node) intelligently forwards that traffic to one of the healthy, matching Pods. This acts as a basic load balancer.
+        Analogy: A Service is like a call center's main phone number. You don't need to know the direct extension of every individual agent (Pod). You just call the main number (the Service), and the system connects you to an available agent. Even if agents start or end their shifts (Pods are created or destroyed), the main number stays the same.
+        
+        What is a NodePort?
+        NodePort is a type of Service. While a standard Service (ClusterIP) is only reachable from inside the cluster, a NodePort service exposes your application to the outside world.
+
+        It does this by opening a specific port on every single Node in the cluster. Any traffic sent to <Any-Node-IP>:<NodePort> is then forwarded to the internal Service, which in turn sends it to a Pod.

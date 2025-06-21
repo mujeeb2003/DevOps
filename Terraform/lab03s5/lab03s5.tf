@@ -73,6 +73,7 @@ resource "azurerm_linux_virtual_machine" "lab03s3-vm" {
     name                 = "${var.virtual_machine_name}-osdisk"
     caching              = var.virtual_machine_os_disk_caching
     storage_account_type = var.virtual_machine_os_disk_storage_account_type
+    disk_size_gb = var.virtual_machine_os_disk_size_gb
   }
 
   source_image_reference {

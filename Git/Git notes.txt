@@ -185,6 +185,7 @@
         -- now we can checkout to another branch. 
         -- git rebase {branch-name}
         -- After rebase, any change in the rebased branch will be reflected in the 2nd branch.
+        -- rebase can also be used to squash multiple commits into a single commit 
     - git reset --hard : to reset the branch.
     - git reset {commit-hash} : to reset the branch to a specific commit.
     - github cli

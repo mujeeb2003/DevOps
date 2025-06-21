@@ -1,0 +1,156 @@
+Introduction to development and operations 
+
+Week-1
+-----------------------------------------------------------------------
+1. cloud computing - 
+2. capital(physical) expenditure and operational(maintenance)
+	-public and private cloud
+	-hybrid: public and private cloud
+	-consumption based model: pay as you use model
+
+
+which cloud to use?
+1. personal preference
+2. where is the client present
+3. which services are to be used and depends on the employee expertise
+
+cloud benefits
+1. high avail
+2. scalability- horizontal and vertical
+3. predictability - 
+4. governance: blueprint or idea of infrastructure
+
+Types of services
+1. IaaS (Infrastructure as a Service): The cloud provider offers fundamental computing resources like virtual machines, storage, and networks. You are responsible for managing the operating system, middleware (e.g., web servers like Apache, databases like MySQL), and your application.
+	- Scenario: If you rent a virtual machine, then install, configure, and manage Apache and MySQL yourself to host your application, this is IaaS. You handle OS patching, software updates for Apache/MySQL, and security.
+2. PaaS (Platform as a Service): The cloud provider manages the underlying infrastructure (hardware, OS) and often the runtime environments and middleware (e.g., web application platforms, managed database services). You deploy and manage your application code without worrying about the infrastructure.
+	- Scenario: If you use a "Web App" service where the environment (which might use Apache or a similar server internally) is provided and managed, and you connect to a "Managed MySQL Database" service, this is PaaS. You deploy your code, but the provider handles Apache/MySQL maintenance and OS updates.
+3. SaaS (Software as a Service): The cloud provider delivers ready-to-use software applications over the internet, typically on a subscription basis. The provider manages all aspects: infrastructure, platform, application software, and maintenance.
+	- Examples: Email services (e.g., Gmail), CRM software (e.g., Salesforce), office suites (e.g., Microsoft 365).
+
+Regarding your exam question about deploying an application with Apache and MySQL:
+- It's **IaaS** if the scenario implies you are responsible for installing and managing Apache and MySQL on a virtual server.
+- It's **PaaS** if the scenario implies you are using a platform that provides a managed web server environment and a managed database service, and you only deploy your application.
+The key is to identify who manages the operating system and the server software (Apache, MySQL). If it's you, it's IaaS. If it's the provider, it's PaaS.
+
+
+Week-2
+-----------------------------------------------------------------------
+azure architectural components
+	- regions(1 or more data centers at a physical location) and availability zones(a specific datacenter that is isolated from the other data center in the same regional area)
+		- region pairs, different regions.
+		
+	- subscriptions and resource groups
+		- management group: a single domain for example
+		- subscriptions: could be understood as different campuses of a domain/organization
+		- resource groups: different departments
+		- Resource: work nodes in each resource groups
+		
+		main resons for segregation:
+			- cost and budget optimization
+			- easy management
+			- Accessibility management
+			
+- compute and networking
+	- compute types:
+		- virtual machine, app services, container instances, virtual desktop
+		- scalability - manual vs automatic and vertical vs horizontal
+		- VNet - isolate an attack, accessibility
+			- public and private networks: 
+			- network peering: 
+			- jump server: hink of it like a fortified antechamber to a castle. Instead of directly accessing the sensitive inner parts of your network (the castle), you 	
+			    first have to go through this highly secured and monitored entry point (the jump server).
+				
+				Here's a breakdown:
+					Purpose: Its main job is to provide a single, controlled, and audited point of entry to other servers or devices within a private network, especially from an untrusted external network (like the internet). This significantly reduces the attack surface because you only need to heavily secure and monitor this one server, rather than every server in your internal network.
+					Security: Jump servers are typically hardened, meaning they have minimal software installed (only what's absolutely necessary for their function), are regularly patched, and have strict access controls and monitoring. All traffic to the internal network must pass through it.
+
+				How it works:
+					An administrator or authorized user from an external network (e.g., their home computer) would first connect to the jump server (e.g., via SSH).
+					Once authenticated on the jump server, they can then "jump" from that server to other servers within the private network.
+					Direct access from the external network to the internal servers is usually blocked by firewalls; only the jump server is allowed to make those internal connections.
+					Your analogy of a "proxy" or "gateway" is quite fitting. It stands between the "outer internet" and the "inner network," controlling and securing access. The key difference from a general web proxy is that a jump server is typically used for administrative access (like SSH or RDP) rather than general web browsing.
+
+			- express route: a company providing a physical cable, extended-LAN, if we are connecting wirelessly: it is called side-to-side point
+			- azure dn: 
+			- Point-to-Site (P2S) VPN: Creates a secure connection from an individual client computer (e.g., an employee's laptop at home) to an Azure Virtual Network (VNet). This is commonly used for remote work scenarios, allowing individual users to access resources within the VNet.
+			- Site-to-Site (S2S) VPN: Connects an entire on-premises network (like a corporate office) to an Azure VNet. This is used to extend a company's internal network into Azure, allowing resources in both locations to communicate securely.
+
+			Note on remote employee connections (exam question context):
+			For an individual employee connecting from home to securely access company resources (e.g., in an Azure VNet or an on-premises network connected to Azure), the typical solution is a **Point-to-Site (P2S) VPN**.
+				- If "Point-to-Site VPN" was an explicit option in your exam, it would generally be the most accurate answer for this scenario.
+				- If "Point to Point" was an option (and P2S VPN was not explicitly listed), it might have been intended to represent a P2S VPN, as this type of connection links a single point (the user's device) to the corporate network.
+				- "VPN to VPN" is not a standard, specific term. If it was intended to mean a "Site-to-Site (S2S) VPN," this would be incorrect for a single remote employee, as S2S VPNs are designed to connect entire networks (e.g., an office network to an Azure VNet), not individual users.
+			Therefore, for a single remote employee connecting from home, a P2S VPN (or "Point to Point" if interpreted as P2S) would be a more suitable choice than an S2S VPN (which "VPN to VPN" might have implied).
+			
+	- application hosting 
+	virtual networking
+- storage accounts
+	- must have a globally unique name
+	- provide over the internet access worldwide
+	- file share server
+	- provides storage redundancy:
+		- Locally Redundant Storage (LRS): Your data is replicated within a single Azure datacenter (within one Availability Zone in a region).
+		- Zone-Redundant Storage (ZRS): Your data is replicated synchronously across three separate Availability Zones within a single Azure region, protecting against datacenter or zone failures.
+		- Geo-Redundant Storage (GRS): Your data is replicated asynchronously to a secondary region (hundreds of miles away), in addition to being stored locally in the primary region.
+		- Geo-Zone-Redundant Storage (GZRS): Combines zone redundancy (across Availability Zones in the primary region) with geo-replication to a secondary region, providing maximum durability and availability.
+	- azure storage access tiers
+		- hot-frequently accessed
+		- cool- accessing atleast 30 days
+		- archival storage
+		 
+	
+- Identity, Access, and security
+	- active directory: new name in azure is entraID
+	- single sign on(SSO)
+	- authentication and authorization
+	
+	conditional access: 
+		- user or group membership
+		- ip location: geo fencing, geographical limitations
+		- device: 
+		- application
+		- risk detection: 
+	
+	RBAC(role based access control)
+	
+	defense in depth
+	1. physical security
+	2. identity & access
+	3. perimter
+	4. network
+	5. compute
+	6. application
+	7. data
+	
+Week - 3:
+	factors affecting costs: 
+		- resource type
+		- consumption
+		- maintenance
+		- geography
+		- network traffic
+		- subscriptions
+		
+	Azure marketplace: allows customers to find, try, purchase and provision application and services from hundreds.
+	
+	Total cost of ownership calculator
+	
+	Azure cost management:
+		- set budget limits
+		- alerting
+		- recommendation for budget
+		
+	Tag: tagging a environment, ex development or production
+	
+	Azure policy: enforcing rules and permissions on a user or group
+	
+	Azure advisor: recommendations on different factors
+	
+	Azure Storage Services:
+	Need simple object storage? → Blob Storage
+	Replacing on-prem file servers? → Azure Files
+	Building microservices? → Queue Storage
+	Running VMs? → Disk Storage
+	Global-scale NoSQL? → Cosmos DB
+	Big data analytics? → Data Lake Storage

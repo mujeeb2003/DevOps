@@ -72,3 +72,100 @@ Basic commands:
     
     
 
+resource "azurerm_resource_group" "rg1" {
+    name = ""
+    location = ""
+}
+
+resource "azurerm_virtual_network" "vnet1" {
+    name = "" 
+    location = "" 
+    resource_group_name = ""
+    address_spaces = [""]
+    dns_servers = [""]
+}
+
+resource "azurerm_subnet" "subnet1" {
+    name = ""
+    resource_group_name = ""
+    virtual_network_name = ""
+    address_prefixes = [""]
+}
+
+resource "azurerm_network_security_group" "nsg1" {
+    name = ""
+    location = ""
+    resource_group_name = ""
+    security_rule {
+        name = ""
+        priority = integer
+        direction = "Inbound/Outbound"
+        access = "Allow"
+        protocol = "Tcp"
+        source_port_range = "*"
+        destination_port_range = "22" or etc
+        source_address_prefix = "*"
+        destination_address_prefix = "*"
+    }
+}
+
+resource "azurerm_subnet_network_security_group_association" "asc1" {
+    subnet_id = ""
+    network_security_group_id = ""
+}
+
+resource "azurerm_network_interface" "" {
+    name = ""
+    location = ""
+    resource_group_name = ""
+
+    ip_configuration {
+        name = ""
+        subnet_id = ""
+        private_ip_address_allocation = ""
+        public_ip_address_id = azurerm_public_ip.pip1.id
+    }
+}
+
+resource "azurerm_public_ip" "" {
+    name = ""
+    location = ""
+    resource_group_name = ""
+    allocation_method = "Dynamic/Static"
+}
+
+resource "azurerm_virtual_machine" "vm1" {
+    name = ""
+    location = ""
+    resource_group_name = ""
+    size = ""
+    admin_username = ""
+    network_interface_ids = [
+        azurerm_network_interface.nic1.id
+    ]
+
+    admin_ssh_key {
+        username = ""
+        public_key = file("")
+    }
+
+    os_disk {
+        name = ""
+        caching = ""
+        storage_account_type = "Premium_LRS"
+        disk_size_gb = 32
+    }
+
+    source_image_reference {
+        publisher = "Canonical"
+        offer = "UbuntuServer"
+        version = "latest"
+        sku = "18.04-LTS"
+    }
+
+    tags = {
+        name = local.name
+    }
+    lifecycle_rule  {prevent_destroy = true}
+    lifecycle_rule  { ignore_changes = [tags]}
+}

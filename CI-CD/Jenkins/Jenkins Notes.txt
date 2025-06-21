@@ -1,0 +1,29 @@
+Jenkins: A open source CI/CD tool used to automate the process of building, testing and deploying applications. 
+Use Case: 
+    - open source
+    - auotmated pipelines
+    - supports distributed builds
+
+Architecture: 
+    - Master -- Agent Architecture
+    - Master is responsible for deletegating the responsibilities to agents 
+    - Agent nodes are responsble for executing the tasks/stages
+
+Main terminologies:
+    - Jobs: Configurable individual tasks that can automate build, test and deployment process. 
+    - Pipeline: A sequence of jobs defined by the user to be automated
+    - Nodes: worker/agent nodes responsible for executing the jobs
+    - Plugins: Extra tools or utilites enhancing further the functionality and integration of jenkins pipeline
+    - workspace: A directory on jenkins node where it stores job related information
+
+What is a Jenkins Pipeline:
+    - A sequence of steps that enable the automation of complex steps involved in deployment workflow such as building, testing and deployment. All these are automated through code, jenkins follows two syntaxes. 
+    - Scripted: free form groovy, more complex and suited for extra control over pipeline
+    - Declerative: a user friendly apporach easier for beginners, and follows a script syntax
+
+Syntax/Pipelines components:
+    - pipeline block: encapsulates the entire the pipelines, inside it come the agent, stages etc.
+    - agent any or agent { docker {image imagename:tag} }: defines the runner or agent on which the pipeline is to be executed. 
+    - stages: different stages of the pipelines, 
+    - steps: individual tasks or steps involved in a stage.
+

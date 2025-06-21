@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+    stages {
+        stage ('build') {
+            steps {
+                script {
+                    echo "Building the project..."
+                    sh 'echo "Running build commands (eg. mvn clean install)"'
+                }
+            }
+        }
+        stage ('test') {
+            steps {
+                script {
+                    echo "Running tests..."
+                    sh 'echo "Running test commands (eg. mvn test)"'
+                }
+            }
+        }
+        stage ('deploy') {
+            steps {
+                script {
+                    echo "Deploying the project..."
+                    sh 'echo "Running deployment commands (eg. mvn deploy)"'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline execution completed.'
+        }
+        success {
+            echo 'Pipeline executed successfully.'
+        }
+        failure {
+            echo 'Pipeline execution failed.'
+        }
+    }
+}

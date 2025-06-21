@@ -1,0 +1,32 @@
+A configuration as code tool used to automate configuration. 
+    - Tasks like installation of a software on a large number of devices, can be done easily through this
+    - can make runtime changes, where as alternative tools like Microsoft SCCM they work once the agent is installed.
+    - Follows a agentless architecture:
+        - There is no need to install a ansible agent to make configurations
+        - YAML is used for configuration
+    
+    Core components of ansible 
+        - inventory: list of managed nodes, on which the management will be done. 
+        - Modules: units of work (eg, yum, copy) such commands or binaries are called as modules. 
+        - playbooks: Series of tasks, yaml files defining tasks
+        - Tasks: individual actions within a playbooks
+        - handlers: tasks which depend on another task, and run once the task it depends on is completed. 
+    
+    - Install ansible
+        - For Ubuntu/Debian: sudo apt update && sudo apt install -y ansible
+        - For RHEL/CentOS: sudo yum install -y ansible
+        - For macOS: brew install ansible
+        - For Windows: Use WSL or install via pip in Python environment
+    
+    - SSH Connection Troubleshooting:
+        - Ensure the private key file exists and has correct path (absolute path recommended)
+        - Set proper permissions: chmod 600 ~/.ssh/your_key_file.pem
+        - Verify you can manually SSH with the same key: ssh -i ~/.ssh/your_key_file.pem user@host
+        - Check if the target server allows SSH key authentication
+        - For SELinux systems: restorecon -R -v ~/.ssh
+        
+    - Inventory file best practices:
+        - Use absolute paths for SSH key files
+        - Test connections with ansible -i inventory_file host -m ping
+        - Use ansible.cfg file to set default values
+        - Group hosts logically (web, db, etc.) 
