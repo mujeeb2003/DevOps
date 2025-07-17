@@ -17,13 +17,13 @@ The current contents of this directory include:
 -   🐳 Docker-related files and projects
 -   🐧 Ubuntu-related notes and configurations
 -   🐙 Git and GitHub version control
+-   🔄 CI/CD pipeline configurations (e.g., Jenkins, GitLab CI) 
+-   🏗️ Infrastructure as Code (IaC) scripts (e.g., Terraform, Ansible)
+-   ☁️ Cloud platform-specific resources (e.g., AWS, Azure, GCP)
 
 As the DevOps roadmap progresses, this directory may grow to include:
 
--   🔄 CI/CD pipeline configurations (e.g., Jenkins, GitLab CI) (🔜 Next in line)
--   🚢 Containerization and orchestration tools (e.g., Docker, Kubernetes)
--   🏗️ Infrastructure as Code (IaC) scripts (e.g., Terraform, Ansible)
--   ☁️ Cloud platform-specific resources (e.g., AWS, Azure, GCP)
+-   🚢 Containerization and orchestration tools (Kubernetes) (🔜 Next in line)
 -   📊 Monitoring and logging tool configurations (e.g., Prometheus, ELK stack)
 -   🛠️ Scripting and automation files (e.g., Bash, Python)
 -   🔒 Security and compliance practices
